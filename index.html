@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 FIFA World Cup Pool</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;600;700&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5EDD6;
+    --cream-dark: #E8D9B5;
+    --paper: #EFE4C4;
+    --ink: #1A1208;
+    --red: #CC1B1B;
+    --blue: #1040A0;
+    --yellow: #F5C800;
+    --green: #1A7A2E;
+    --orange: #E85D0A;
+    --muted: #7A6A4A;
+    --border: #8B6A2A;
+    --shadow: rgba(80,50,10,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--blue);
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.06) 39px, rgba(255,255,255,0.06) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.06) 39px, rgba(255,255,255,0.06) 40px);
+    color: var(--ink);
+    font-family: 'Barlow Condensed', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    background: var(--red);
+    background-image:
+      repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(0,0,0,0.06) 8px, rgba(0,0,0,0.06) 9px);
+    padding: 48px 20px 44px;
+    text-align: center;
+    overflow: hidden;
+    border-bottom: 6px solid var(--ink);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 3px solid rgba(255,255,255,0.35);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    border: 1px solid rgba(255,255,255,0.2);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--yellow);
+    color: var(--ink);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 5px 18px;
+    border-radius: 2px;
+    margin-bottom: 18px;
+    position: relative;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(58px, 11vw, 104px);
+    letter-spacing: 6px;
+    line-height: 0.88;
+    position: relative;
+    color: #fff;
+    text-shadow: 4px 4px 0 rgba(0,0,0,0.35);
+  }
+  .hero h2 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(20px, 4vw, 34px);
+    letter-spacing: 8px;
+    color: var(--yellow);
+    margin-top: 8px;
+    position: relative;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    text-transform: uppercase;
+  }
+  .hero-meta {
+    margin-top: 16px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 1px;
+    position: relative;
+    font-weight: 600;
+  }
+  .hero-meta span { color: #fff; }
+
+  /* MAIN CONTAINER */
+  .container {
+    max-width: 1020px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+  }
+
+  /* SECTION TITLES */
+  .section-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--cream);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+  }
+  .section-title::before {
+    content: '▶';
+    color: var(--yellow);
+    font-size: 14px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 3px;
+    background: repeating-linear-gradient(90deg, var(--yellow) 0px, var(--yellow) 8px, transparent 8px, transparent 12px);
+    opacity: 0.7;
+  }
+
+  /* PRIZES GRID */
+  .prizes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+  .prize-card {
+    background: var(--cream);
+    border: 3px solid var(--ink);
+    border-radius: 4px;
+    padding: 18px 14px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.15s;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .prize-card:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+  .prize-card.first {
+    background: var(--yellow);
+    border-color: var(--ink);
+  }
+  .prize-card.first::before {
+    content: '★ ★ ★';
+    position: absolute;
+    top: 5px; left: 0; right: 0;
+    text-align: center;
+    font-size: 8px;
+    color: var(--ink);
+    letter-spacing: 4px;
+    opacity: 0.4;
+  }
+  .prize-place {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .prize-amount {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 42px;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .prize-pct {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* RULES */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+  .rule-card {
+    background: var(--cream);
+    border: 3px solid var(--ink);
+    border-radius: 4px;
+    padding: 16px 18px;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .rule-label {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 6px;
+  }
+  .rule-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .rule-value .pts { color: var(--blue); font-weight: 700; }
+  .rule-value .note { color: var(--red); font-size: 12px; display: block; margin-top: 3px; font-weight: 600; }
+
+  /* DRAFT TABLE */
+  .draft-table-wrap {
+    background: var(--cream);
+    border: 3px solid var(--ink);
+    border-radius: 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-bottom: 40px;
+    box-shadow: 5px 5px 0 var(--ink);
+    -webkit-overflow-scrolling: touch;
+  }
+  .draft-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .draft-table thead {
+    background: var(--blue);
+    border-bottom: 3px solid var(--ink);
+  }
+  .draft-table th {
+    padding: 12px 14px;
+    text-align: left;
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--yellow);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .draft-table td {
+    padding: 11px 14px;
+    border-bottom: 2px solid rgba(26,18,8,0.1);
+    vertical-align: middle;
+  }
+  .draft-table tr:last-child td { border-bottom: none; }
+  .draft-table tr:nth-child(even) td { background: rgba(26,18,8,0.04); }
+  .draft-table tr:hover td { background: rgba(245,200,0,0.12); }
+  .group-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 24px;
+    color: var(--blue);
+    text-align: center;
+    width: 40px;
+  }
+  .group-name {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .team-pill {
+    display: inline-block;
+    background: var(--blue);
+    border: 2px solid var(--ink);
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 3px;
+    margin: 2px 2px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+  }
+  .team-pill.tbd {
+    background: rgba(122,106,74,0.15);
+    border-color: rgba(122,106,74,0.3);
+    color: var(--muted);
+    font-weight: 400;
+    font-style: italic;
+    box-shadow: none;
+    text-transform: none;
+  }
+  /* Picked teams — bold retro colours */
+  .team-pill.spain    { background: #CC1B1B; border-color: var(--ink); color: #fff; }
+  .team-pill.france   { background: #1040A0; border-color: var(--ink); color: #fff; }
+  .team-pill.argentina{ background: #74ACDF; border-color: var(--ink); color: var(--ink); }
+  .team-pill.portugal { background: #006600; border-color: var(--ink); color: #fff; }
+  .team-pill.england  { background: #CC1B1B; border-color: var(--ink); color: #fff; }
+  .team-pill.brasil   { background: #009B3A; border-color: var(--ink); color: #FEDD00; }
+  .team-pill.germany  { background: #1A1208; border-color: var(--ink); color: #fff; }
+  .team-pill.belgium  { background: #CC1B1B; border-color: var(--ink); color: #F5C800; }
+  .team-pill.norway   { background: #CC1B1B; border-color: var(--ink); color: #003087; }
+  .team-pill.netherlands { background: #FF6600; border-color: var(--ink); color: #fff; }
+  .team-pill.switzerland { background: #CC0000; border-color: var(--ink); color: #fff; }
+  .team-pill.morocco   { background: #C1272D; border-color: var(--ink); color: #006233; }
+  .team-pill.mexico    { background: #006847; border-color: var(--ink); color: #fff; }
+  .team-pill.colombia  { background: #FCD116; border-color: var(--ink); color: #003087; }
+  .team-pill.usa       { background: #002868; border-color: var(--ink); color: #BF0A30; }
+
+  /* SCHEDULE TABLE */
+  .schedule-section { margin-bottom: 40px; }
+  .round-group { margin-bottom: 22px; }
+  .round-label {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 8px;
+    padding-left: 4px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+  }
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 6px;
+  }
+  .pick-row {
+    background: var(--cream);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    padding: 9px 13px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    transition: transform 0.1s;
+  }
+  .pick-row:hover { transform: translateX(2px); }
+  .pick-row.current {
+    border-color: var(--red);
+    border-width: 3px;
+    background: #FFF8E0;
+    box-shadow: 3px 3px 0 var(--red);
+  }
+  .pick-row.done {
+    opacity: 0.4;
+  }
+  .pick-row.done .pick-num,
+  .pick-row.done .pick-date,
+  .pick-row.done .pick-time,
+  .pick-row.done .pick-group-name {
+    text-decoration: line-through;
+    text-decoration-color: var(--muted);
+  }
+  .pick-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 20px;
+    color: var(--muted);
+    min-width: 26px;
+  }
+  .pick-datetime {
+    flex: 1;
+  }
+  .pick-date { color: var(--muted); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .pick-time { font-weight: 700; font-size: 13px; color: var(--ink); }
+  .pick-group-name { text-align: right; font-size: 12px; color: var(--ink); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .now-badge {
+    background: var(--red);
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 28px 20px;
+    border-top: 4px solid var(--ink);
+    background: var(--ink);
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--yellow);
+  }
+
+  /* Pot total banner */
+  .pot-banner {
+    background: var(--yellow);
+    border: 3px solid var(--ink);
+    border-radius: 4px;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+  .pot-label { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--ink); opacity: 0.6; }
+  .pot-amount { font-family: 'Bebas Neue', cursive; font-size: 48px; color: var(--ink); line-height: 1; }
+  .pot-detail { font-size: 12px; color: var(--ink); margin-top: 2px; font-weight: 600; opacity: 0.7; }
+
+  @media (max-width: 600px) {
+    .draft-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .draft-table { font-size: 12px; min-width: 520px; }
+    .draft-table th, .draft-table td { padding: 8px 8px; }
+    .group-num { font-size: 18px; width: 28px; }
+    .group-name { font-size: 12px; }
+    .team-pill { font-size: 10px; padding: 2px 6px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">⚽ Official Pool Sheet</div>
+  <h1>FIFA World Cup</h1>
+  <h2>2026 Pool</h2>
+  <p class="hero-meta">June 11 – July 19, 2026 &nbsp;·&nbsp; <span>USA, Canada & Mexico</span></p>
+</div>
+
+<div class="container">
+
+  <!-- DRAFT BOARD -->
+  <div class="section-title">Draft Board</div>
+  <div class="draft-table-wrap">
+    <table class="draft-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Group</th>
+          <th>Pick 1</th>
+          <th>Pick 2</th>
+          <th>Pick 3</th>
+          <th>Pick 4</th>
+          <th>Pick 5</th>
+          <th>Pick 6</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="group-num">1</td>
+          <td class="group-name">John & Erik</td>
+          <td><span class="team-pill spain">Spain</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+        </tr>
+        <tr>
+          <td class="group-num">2</td>
+          <td class="group-name">Jocke & Benu</td>
+          <td><span class="team-pill france">France</span></td>
+          <td><span class="team-pill usa">USA</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+        </tr>
+        <tr>
+          <td class="group-num">3</td>
+          <td class="group-name">Dave & Pat</td>
+          <td><span class="team-pill argentina">Argentina</span></td>
+          <td><span class="team-pill colombia">Colombia</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+        </tr>
+        <tr>
+          <td class="group-num">4</td>
+          <td class="group-name">Dom & Giac</td>
+          <td><span class="team-pill portugal">Portugal</span></td>
+          <td><span class="team-pill mexico">Mexico</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+        </tr>
+        <tr>
+          <td class="group-num">5</td>
+          <td class="group-name">Charles & Bruno</td>
+          <td><span class="team-pill england">England</span></td>
+          <td><span class="team-pill morocco">Morocco</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+        </tr>
+        <tr>
+          <td class="group-num">6</td>
+          <td class="group-name">Farhad & Rol</td>
+          <td><span class="team-pill brasil">Brasil</span></td>
+          <td><span class="team-pill switzerland">Switzerland</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+        </tr>
+        <tr>
+          <td class="group-num">7</td>
+          <td class="group-name">Matt & Tony</td>
+          <td><span class="team-pill germany">Germany</span></td>
+          <td><span class="team-pill netherlands">Netherlands</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+        </tr>
+        <tr>
+          <td class="group-num">8</td>
+          <td class="group-name">Scott & Rob</td>
+          <td><span class="team-pill belgium">Belgium</span></td>
+          <td><span class="team-pill norway">Norway</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill tbd">TBD</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- DRAFT SCHEDULE -->
+  <div class="section-title">Draft Schedule</div>
+  <div class="schedule-section">
+
+    <div class="round-group">
+      <div class="round-label">Round 1</div>
+      <div class="schedule-grid">
+        <div class="pick-row done"><span class="pick-num">1</span><div class="pick-datetime"><div class="pick-date">Mon, May 11</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">John & Erik</div></div>
+        <div class="pick-row done"><span class="pick-num">2</span><div class="pick-datetime"><div class="pick-date">Tue, May 12</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Jocke & Benu</div></div>
+        <div class="pick-row done"><span class="pick-num">3</span><div class="pick-datetime"><div class="pick-date">Tue, May 12</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Dave & Pat</div></div>
+        <div class="pick-row done"><span class="pick-num">4</span><div class="pick-datetime"><div class="pick-date">Wed, May 13</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Dom & Giac</div></div>
+        <div class="pick-row done"><span class="pick-num">5</span><div class="pick-datetime"><div class="pick-date">Wed, May 13</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Charles & Bruno</div></div>
+        <div class="pick-row done"><span class="pick-num">6</span><div class="pick-datetime"><div class="pick-date">Thu, May 14</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Farhad & Rol</div></div>
+        <div class="pick-row done"><span class="pick-num">7</span><div class="pick-datetime"><div class="pick-date">Thu, May 14</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Matt & Tony</div></div>
+        <div class="pick-row done"><span class="pick-num">8</span><div class="pick-datetime"><div class="pick-date">Fri, May 15</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Scott & Rob</div></div>
+      </div>
+    </div>
+
+    <div class="round-group">
+      <div class="round-label">Round 2</div>
+      <div class="schedule-grid">
+        <div class="pick-row done"><span class="pick-num">9</span><div class="pick-datetime"><div class="pick-date">Fri, May 15</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Scott & Rob</div></div>
+        <div class="pick-row done"><span class="pick-num">10</span><div class="pick-datetime"><div class="pick-date">Sat, May 16</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Matt & Tony</div></div>
+        <div class="pick-row done"><span class="pick-num">11</span><div class="pick-datetime"><div class="pick-date">Sat, May 16</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Farhad & Rol</div></div>
+        <div class="pick-row done"><span class="pick-num">12</span><div class="pick-datetime"><div class="pick-date">Sun, May 17</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Charles & Bruno</div></div>
+        <div class="pick-row done"><span class="pick-num">13</span><div class="pick-datetime"><div class="pick-date">Sun, May 17</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Dom & Giac</div></div>
+        <div class="pick-row done"><span class="pick-num">14</span><div class="pick-datetime"><div class="pick-date">Mon, May 18</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Dave & Pat</div></div>
+        <div class="pick-row done"><span class="pick-num">15</span><div class="pick-datetime"><div class="pick-date">Mon, May 18</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Jocke & Benu</div></div>
+        <div class="pick-row current"><span class="pick-num">16</span><div class="pick-datetime"><div class="pick-date">Tue, May 19</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">John & Erik</div><span class="now-badge">Now</span></div>
+      </div>
+    </div>
+
+    <div class="round-group">
+      <div class="round-label">Round 3</div>
+      <div class="schedule-grid">
+        <div class="pick-row"><span class="pick-num">17</span><div class="pick-datetime"><div class="pick-date">Tue, May 19</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">John & Erik</div></div>
+        <div class="pick-row"><span class="pick-num">18</span><div class="pick-datetime"><div class="pick-date">Wed, May 20</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Jocke & Benu</div></div>
+        <div class="pick-row"><span class="pick-num">19</span><div class="pick-datetime"><div class="pick-date">Wed, May 20</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Dave & Pat</div></div>
+        <div class="pick-row"><span class="pick-num">20</span><div class="pick-datetime"><div class="pick-date">Thu, May 21</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Dom & Giac</div></div>
+        <div class="pick-row"><span class="pick-num">21</span><div class="pick-datetime"><div class="pick-date">Thu, May 21</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Charles & Bruno</div></div>
+        <div class="pick-row"><span class="pick-num">22</span><div class="pick-datetime"><div class="pick-date">Fri, May 22</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Farhad & Rol</div></div>
+        <div class="pick-row"><span class="pick-num">23</span><div class="pick-datetime"><div class="pick-date">Fri, May 22</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Matt & Tony</div></div>
+        <div class="pick-row"><span class="pick-num">24</span><div class="pick-datetime"><div class="pick-date">Sat, May 23</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Scott & Rob</div></div>
+      </div>
+    </div>
+
+    <div class="round-group">
+      <div class="round-label">Round 4</div>
+      <div class="schedule-grid">
+        <div class="pick-row"><span class="pick-num">25</span><div class="pick-datetime"><div class="pick-date">Sat, May 23</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Scott & Rob</div></div>
+        <div class="pick-row"><span class="pick-num">26</span><div class="pick-datetime"><div class="pick-date">Sun, May 24</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Matt & Tony</div></div>
+        <div class="pick-row"><span class="pick-num">27</span><div class="pick-datetime"><div class="pick-date">Sun, May 24</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Farhad & Rol</div></div>
+        <div class="pick-row"><span class="pick-num">28</span><div class="pick-datetime"><div class="pick-date">Mon, May 25</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Charles & Bruno</div></div>
+        <div class="pick-row"><span class="pick-num">29</span><div class="pick-datetime"><div class="pick-date">Mon, May 25</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Dom & Giac</div></div>
+        <div class="pick-row"><span class="pick-num">30</span><div class="pick-datetime"><div class="pick-date">Tue, May 26</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Dave & Pat</div></div>
+        <div class="pick-row"><span class="pick-num">31</span><div class="pick-datetime"><div class="pick-date">Tue, May 26</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Jocke & Benu</div></div>
+        <div class="pick-row"><span class="pick-num">32</span><div class="pick-datetime"><div class="pick-date">Wed, May 27</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">John & Erik</div></div>
+      </div>
+    </div>
+
+    <div class="round-group">
+      <div class="round-label">Round 5</div>
+      <div class="schedule-grid">
+        <div class="pick-row"><span class="pick-num">33</span><div class="pick-datetime"><div class="pick-date">Wed, May 27</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">John & Erik</div></div>
+        <div class="pick-row"><span class="pick-num">34</span><div class="pick-datetime"><div class="pick-date">Thu, May 28</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Jocke & Benu</div></div>
+        <div class="pick-row"><span class="pick-num">35</span><div class="pick-datetime"><div class="pick-date">Thu, May 28</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Dave & Pat</div></div>
+        <div class="pick-row"><span class="pick-num">36</span><div class="pick-datetime"><div class="pick-date">Fri, May 29</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Dom & Giac</div></div>
+        <div class="pick-row"><span class="pick-num">37</span><div class="pick-datetime"><div class="pick-date">Fri, May 29</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Charles & Bruno</div></div>
+        <div class="pick-row"><span class="pick-num">38</span><div class="pick-datetime"><div class="pick-date">Sat, May 30</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Farhad & Rol</div></div>
+        <div class="pick-row"><span class="pick-num">39</span><div class="pick-datetime"><div class="pick-date">Sat, May 30</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Matt & Tony</div></div>
+        <div class="pick-row"><span class="pick-num">40</span><div class="pick-datetime"><div class="pick-date">Sun, May 31</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Scott & Rob</div></div>
+      </div>
+    </div>
+
+    <div class="round-group">
+      <div class="round-label">Round 6</div>
+      <div class="schedule-grid">
+        <div class="pick-row"><span class="pick-num">41</span><div class="pick-datetime"><div class="pick-date">Sun, May 31</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Scott & Rob</div></div>
+        <div class="pick-row"><span class="pick-num">42</span><div class="pick-datetime"><div class="pick-date">Mon, Jun 1</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Matt & Tony</div></div>
+        <div class="pick-row"><span class="pick-num">43</span><div class="pick-datetime"><div class="pick-date">Mon, Jun 1</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Farhad & Rol</div></div>
+        <div class="pick-row"><span class="pick-num">44</span><div class="pick-datetime"><div class="pick-date">Tue, Jun 2</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Charles & Bruno</div></div>
+        <div class="pick-row"><span class="pick-num">45</span><div class="pick-datetime"><div class="pick-date">Tue, Jun 2</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Dom & Giac</div></div>
+        <div class="pick-row"><span class="pick-num">46</span><div class="pick-datetime"><div class="pick-date">Wed, Jun 3</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Dave & Pat</div></div>
+        <div class="pick-row"><span class="pick-num">47</span><div class="pick-datetime"><div class="pick-date">Wed, Jun 3</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Jocke & Benu</div></div>
+        <div class="pick-row"><span class="pick-num">48</span><div class="pick-datetime"><div class="pick-date">Thu, Jun 4</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">John & Erik</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- POT BANNER -->
+  <div class="pot-banner">
+    <div>
+      <div class="pot-label">Total Prize Pot</div>
+      <div class="pot-amount">$2,400</div>
+      <div class="pot-detail">8 groups × $300 buy-in</div>
+    </div>
+    <div style="text-align:right">
+      <div class="pot-label">Draft Window</div>
+      <div style="font-size:15px; font-weight:600; margin-top:4px;">May 11 – Jun 4, 2026</div>
+      <div class="pot-detail">12 hours per pick · Snake format</div>
+    </div>
+  </div>
+
+  <!-- PRIZES -->
+  <div class="section-title">Prizes</div>
+  <div class="prizes-grid">
+    <div class="prize-card first">
+      <div class="prize-place">🥇 1st Place</div>
+      <div class="prize-amount">$1,200</div>
+      <div class="prize-pct">50% of pot</div>
+    </div>
+    <div class="prize-card">
+      <div class="prize-place">🥈 2nd Place</div>
+      <div class="prize-amount">$600</div>
+      <div class="prize-pct">25% of pot</div>
+    </div>
+    <div class="prize-card">
+      <div class="prize-place">🥉 3rd Place</div>
+      <div class="prize-amount">$300</div>
+      <div class="prize-pct">12.5% of pot</div>
+    </div>
+    <div class="prize-card">
+      <div class="prize-place">🏆 WC Winner Bonus</div>
+      <div class="prize-amount">$300</div>
+      <div class="prize-pct">Group holding champion</div>
+    </div>
+  </div>
+
+  <!-- RULES -->
+  <div class="section-title">Rules</div>
+  <div class="rules-grid">
+    <div class="rule-card">
+      <div class="rule-label">Scoring</div>
+      <div class="rule-value">
+        <span class="pts">3 pts</span> for a win<br>
+        <span class="pts">1 pt</span> for a tie
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-label">Exclusion</div>
+      <div class="rule-value">
+        Bronze medal game
+        <span class="note">Does NOT count for points</span>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-label">Tiebreaker</div>
+      <div class="rule-value">Total goal differential (+/−)<br><span style="font-size:12px;color:var(--muted)">including bronze medal game</span></div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-label">Teams per Group</div>
+      <div class="rule-value">6 WC teams selected via snake draft</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  2026 FIFA World Cup Pool &nbsp;·&nbsp; Draft closes Thu Jun 4 at 6:00 AM &nbsp;·&nbsp; Good luck to all! ⚽
+</footer>
+
+</body>
+</html>

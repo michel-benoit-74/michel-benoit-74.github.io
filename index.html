@@ -324,6 +324,57 @@
   .team-pill.croatia   { background: #CC1B1B; border-color: var(--ink); color: #fff; background-image: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,255,255,0.15) 4px, rgba(255,255,255,0.15) 8px); }
   .team-pill.uruguay   { background: #5EB6E4; border-color: var(--ink); color: #fff; }
   .team-pill.turkey    { background: #E30A17; border-color: var(--ink); color: #fff; }
+  .team-pill.canada    { background: #FF0000; border-color: var(--ink); color: #fff; }
+
+  /* GROUPS TABLE */
+  .groups-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 40px;
+  }
+  .group-card {
+    background: var(--cream);
+    border: 3px solid var(--ink);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .group-card-header {
+    background: var(--blue);
+    padding: 5px 10px;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 18px;
+    color: var(--yellow);
+    letter-spacing: 2px;
+  }
+  .group-card-teams {
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .group-team {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+    padding: 2px 4px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-radius: 2px;
+  }
+  .group-team.taken {
+    color: var(--muted);
+    text-decoration: line-through;
+    opacity: 0.45;
+  }
+  @media (max-width: 700px) {
+    .groups-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 400px) {
+    .groups-grid { grid-template-columns: repeat(2, 1fr); }
+  }
 
   /* SCHEDULE TABLE */
   .schedule-section { margin-bottom: 40px; }
@@ -508,7 +559,7 @@
           <td class="group-name">Dom & Giac</td>
           <td><span class="team-pill portugal">Portugal</span></td>
           <td><span class="team-pill mexico">Mexico</span></td>
-          <td><span class="team-pill tbd">TBD</span></td>
+          <td><span class="team-pill canada">Canada</span></td>
           <td><span class="team-pill tbd">TBD</span></td>
           <td><span class="team-pill tbd">TBD</span></td>
           <td><span class="team-pill tbd">TBD</span></td>
@@ -557,6 +608,132 @@
     </table>
   </div>
 
+  <!-- WC2026 GROUPS -->
+  <div class="section-title">WC2026 Groups</div>
+  <div class="groups-grid">
+
+    <div class="group-card">
+      <div class="group-card-header">Group A</div>
+      <div class="group-card-teams">
+        <span class="group-team taken">Mexico</span>
+        <span class="group-team">South Africa</span>
+        <span class="group-team">South Korea</span>
+        <span class="group-team">Czechia</span>
+      </div>
+    </div>
+
+    <div class="group-card">
+      <div class="group-card-header">Group B</div>
+      <div class="group-card-teams">
+        <span class="group-team taken">Canada</span>
+        <span class="group-team taken">Switzerland</span>
+        <span class="group-team">Qatar</span>
+        <span class="group-team">Bosnia &amp; Herz.</span>
+      </div>
+    </div>
+
+    <div class="group-card">
+      <div class="group-card-header">Group C</div>
+      <div class="group-card-teams">
+        <span class="group-team taken">Brazil</span>
+        <span class="group-team taken">Morocco</span>
+        <span class="group-team">Haiti</span>
+        <span class="group-team">Scotland</span>
+      </div>
+    </div>
+
+    <div class="group-card">
+      <div class="group-card-header">Group D</div>
+      <div class="group-card-teams">
+        <span class="group-team taken">USA</span>
+        <span class="group-team">Paraguay</span>
+        <span class="group-team">Australia</span>
+        <span class="group-team taken">Turkey</span>
+      </div>
+    </div>
+
+    <div class="group-card">
+      <div class="group-card-header">Group E</div>
+      <div class="group-card-teams">
+        <span class="group-team taken">Germany</span>
+        <span class="group-team">Curaçao</span>
+        <span class="group-team">Côte d'Ivoire</span>
+        <span class="group-team">Ecuador</span>
+      </div>
+    </div>
+
+    <div class="group-card">
+      <div class="group-card-header">Group F</div>
+      <div class="group-card-teams">
+        <span class="group-team taken">Netherlands</span>
+        <span class="group-team taken">Japan</span>
+        <span class="group-team">Tunisia</span>
+        <span class="group-team">Sweden</span>
+      </div>
+    </div>
+
+    <div class="group-card">
+      <div class="group-card-header">Group G</div>
+      <div class="group-card-teams">
+        <span class="group-team taken">Belgium</span>
+        <span class="group-team">Egypt</span>
+        <span class="group-team">Iran</span>
+        <span class="group-team">New Zealand</span>
+      </div>
+    </div>
+
+    <div class="group-card">
+      <div class="group-card-header">Group H</div>
+      <div class="group-card-teams">
+        <span class="group-team taken">Spain</span>
+        <span class="group-team">Cabo Verde</span>
+        <span class="group-team">Saudi Arabia</span>
+        <span class="group-team taken">Uruguay</span>
+      </div>
+    </div>
+
+    <div class="group-card">
+      <div class="group-card-header">Group I</div>
+      <div class="group-card-teams">
+        <span class="group-team taken">France</span>
+        <span class="group-team">Senegal</span>
+        <span class="group-team taken">Norway</span>
+        <span class="group-team">Iraq</span>
+      </div>
+    </div>
+
+    <div class="group-card">
+      <div class="group-card-header">Group J</div>
+      <div class="group-card-teams">
+        <span class="group-team taken">Argentina</span>
+        <span class="group-team">Algeria</span>
+        <span class="group-team">Austria</span>
+        <span class="group-team">Jordan</span>
+      </div>
+    </div>
+
+    <div class="group-card">
+      <div class="group-card-header">Group K</div>
+      <div class="group-card-teams">
+        <span class="group-team taken">Portugal</span>
+        <span class="group-team">Uzbekistan</span>
+        <span class="group-team taken">Colombia</span>
+        <span class="group-team">Congo DR</span>
+      </div>
+    </div>
+
+    <div class="group-card">
+      <div class="group-card-header">Group L</div>
+      <div class="group-card-teams">
+        <span class="group-team taken">England</span>
+        <span class="group-team taken">Croatia</span>
+        <span class="group-team">Ghana</span>
+        <span class="group-team">Panama</span>
+      </div>
+    </div>
+
+  </div>
+
   <!-- DRAFT SCHEDULE -->
   <div class="section-title">Draft Schedule</div>
   <div class="schedule-section">
@@ -595,8 +772,8 @@
         <div class="pick-row done"><span class="pick-num">17</span><div class="pick-datetime"><div class="pick-date">Tue, May 19</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">John & Erik</div></div>
         <div class="pick-row done"><span class="pick-num">18</span><div class="pick-datetime"><div class="pick-date">Wed, May 20</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Jocke & Benu</div></div>
         <div class="pick-row done"><span class="pick-num">19</span><div class="pick-datetime"><div class="pick-date">Wed, May 20</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Dave & Pat</div></div>
-        <div class="pick-row current"><span class="pick-num">20</span><div class="pick-datetime"><div class="pick-date">Thu, May 21</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Dom & Giac</div><span class="now-badge">Now</span></div>
-        <div class="pick-row"><span class="pick-num">21</span><div class="pick-datetime"><div class="pick-date">Thu, May 21</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Charles & Bruno</div></div>
+        <div class="pick-row done"><span class="pick-num">20</span><div class="pick-datetime"><div class="pick-date">Thu, May 21</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Dom & Giac</div></div>
+        <div class="pick-row current"><span class="pick-num">21</span><div class="pick-datetime"><div class="pick-date">Thu, May 21</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Charles & Bruno</div><span class="now-badge">Now</span></div>
         <div class="pick-row"><span class="pick-num">22</span><div class="pick-datetime"><div class="pick-date">Fri, May 22</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Farhad & Rol</div></div>
         <div class="pick-row"><span class="pick-num">23</span><div class="pick-datetime"><div class="pick-date">Fri, May 22</div><div class="pick-time">6:00 PM</div></div><div class="pick-group-name">Matt & Tony</div></div>
         <div class="pick-row"><span class="pick-num">24</span><div class="pick-datetime"><div class="pick-date">Sat, May 23</div><div class="pick-time">6:00 AM</div></div><div class="pick-group-name">Scott & Rob</div></div>

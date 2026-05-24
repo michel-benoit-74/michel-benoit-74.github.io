@@ -14,7 +14,7 @@
     --red: #CC1B1B;
     --blue: #1040A0;
     --yellow: #F5C800;
-    --green: #1A7A2E;
+    --green: #0A5218;
     --orange: #E85D0A;
     --muted: #7A6A4A;
     --border: #8B6A2A;
@@ -226,6 +226,85 @@
   }
   .rule-value .pts { color: var(--blue); font-weight: 700; }
   .rule-value .note { color: var(--red); font-size: 12px; display: block; margin-top: 3px; font-weight: 600; }
+
+  /* LEADERBOARD */
+  .lb-note {
+    background: var(--yellow); color: var(--ink);
+    font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 1px;
+    padding: 8px 14px; border-radius: 3px; border: 2px solid var(--ink);
+    margin-bottom: 16px; text-align: center;
+  }
+  .lb-table {
+    width: 100%; border-collapse: collapse; margin-bottom: 32px;
+    background: var(--cream); border: 3px solid var(--ink);
+    box-shadow: 4px 4px 0 var(--ink); border-radius: 4px; overflow: hidden;
+    font-family: 'Oswald', sans-serif;
+  }
+  .lb-table thead th {
+    background: var(--ink); color: var(--yellow); font-size: 12px;
+    letter-spacing: 2px; padding: 10px 12px; text-align: left; text-transform: uppercase;
+  }
+  .lb-table thead th.c { text-align: center; }
+  .lb-table tbody tr { border-bottom: 2px solid var(--cream-dark); }
+  .lb-table tbody tr:last-child { border-bottom: none; }
+  .lb-table tbody tr:hover { background: var(--cream-dark); }
+  .lb-row td { padding: 9px 12px; vertical-align: middle; }
+  .lb-rank {
+    font-family: 'Bebas Neue', cursive; font-size: 26px; color: var(--muted);
+    text-align: center; width: 42px;
+  }
+  .lb-rank.gold  { color: #C8A800; }
+  .lb-rank.silver { color: #888; }
+  .lb-rank.bronze { color: #9B6B3A; }
+  .lb-name { font-weight: 600; font-size: 16px; letter-spacing: 1px; white-space: nowrap; color: var(--ink); }
+  .lb-pills { display: flex; flex-wrap: wrap; gap: 4px; }
+  .team-pill.sm { font-size: 10px; padding: 2px 7px; letter-spacing: 0.5px; }
+  .lb-pts { font-family: 'Bebas Neue', cursive; font-size: 26px; color: var(--ink); text-align: center; width: 56px; }
+  .lb-gd { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 16px; text-align: center; width: 56px; }
+  .lb-gd.pos { color: var(--green); }
+  .lb-gd.neg { color: var(--red); }
+  .lb-gd.zero { color: var(--muted); }
+  .lb-row.first  { background: rgba(245,200,0,0.2); }
+  .lb-row.second { background: rgba(192,192,192,0.25); }
+  .lb-row.third  { background: rgba(175,100,40,0.18); }
+  .lb-row.first  .lb-name { color: #C8A800; font-weight: 700; }
+  .lb-row.second .lb-name { color: #888;    font-weight: 700; }
+  .lb-row.third  .lb-name { color: #9B6B3A; font-weight: 700; }
+
+  /* STATS GRID */
+  .stats-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 40px; }
+  @media (max-width: 600px) { .stats-grid { grid-template-columns: 1fr; } }
+  .stats-card { background: var(--cream); border: 3px solid var(--ink); border-radius: 4px; box-shadow: 4px 4px 0 var(--ink); overflow: hidden; }
+  .stats-card-hdr {
+    background: #7A6A4A; color: var(--cream);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 12px; font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 15px; letter-spacing: 1px;
+  }
+  .stats-card-hdr.first  { background: rgba(245,200,0,0.38);  color: #C8A800; }
+  .stats-card-hdr.second { background: rgba(180,180,180,0.55); color: #888; }
+  .stats-card-hdr.third  { background: rgba(175,100,40,0.45);  color: #9B6B3A; }
+  .stats-totals { display: flex; gap: 8px; align-items: center; }
+  .stats-pts { background: var(--yellow); color: var(--ink); font-family: 'Bebas Neue', cursive; font-size: 18px; padding: 1px 7px; border-radius: 2px; }
+  .stats-gd { font-size: 14px; font-weight: 700; }
+  .stats-gd.pos { color: var(--green); }
+  .stats-gd.neg { color: #FF7070; }
+  .stats-gd.zero { color: var(--muted); }
+  .stats-tbl { width: 100%; border-collapse: collapse; font-family: 'Barlow Condensed', sans-serif; }
+  .stats-tbl thead th {
+    background: var(--cream-dark); color: var(--muted);
+    font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+    padding: 5px 8px; text-align: center; border-bottom: 2px solid var(--border);
+  }
+  .stats-tbl thead th.tl { text-align: left; }
+  .stats-tbl tbody tr { border-bottom: 1px solid var(--cream-dark); }
+  .stats-tbl tbody tr:last-child { border-bottom: none; }
+  .stats-tbl td { padding: 6px 8px; text-align: center; color: var(--ink); font-size: 14px; font-weight: 600; }
+  .stats-tbl td.tl { text-align: left; }
+  .stats-tbl td.pos { color: var(--green); font-weight: 700; }
+  .stats-tbl td.neg { color: var(--red); font-weight: 700; }
+  .stats-tbl td.zero { color: var(--muted); }
+  .stats-tbl td.pts-n { font-family: 'Bebas Neue', cursive; font-size: 18px; }
+  .stats-tbl tr.tbd td { color: var(--muted); font-style: italic; font-size: 13px; }
 
   /* DRAFT TABLE */
   .draft-table-wrap {
@@ -894,6 +973,261 @@
       <div class="rule-label">Teams per Group</div>
       <div class="rule-value">6 WC teams selected via snake draft</div>
     </div>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div class="section-title" style="margin-top:20px;">Leaderboard</div>
+  <div class="lb-note">⚽ Sample data — standings update live once the tournament kicks off Jun 11</div>
+
+  <table class="lb-table">
+    <thead>
+      <tr>
+        <th class="c">#</th>
+        <th>Group</th>
+        <th>Teams</th>
+        <th class="c">Pts</th>
+        <th class="c">+/−</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="lb-row lb-you first">
+        <td class="lb-rank gold">1</td>
+        <td class="lb-name">Jocke &amp; Benu</td>
+        <td class="lb-pills">
+          <span class="team-pill sm france">France</span>
+          <span class="team-pill sm usa">USA</span>
+          <span class="team-pill sm uruguay">Uruguay</span>
+          <span class="team-pill sm tbd">TBD</span>
+        </td>
+        <td class="lb-pts">13</td>
+        <td class="lb-gd pos">+7</td>
+      </tr>
+      <tr class="lb-row second">
+        <td class="lb-rank silver">2</td>
+        <td class="lb-name">John &amp; Erik</td>
+        <td class="lb-pills">
+          <span class="team-pill sm spain">Spain</span>
+          <span class="team-pill sm japan">Japan</span>
+          <span class="team-pill sm croatia">Croatia</span>
+          <span class="team-pill sm tbd">TBD</span>
+        </td>
+        <td class="lb-pts">11</td>
+        <td class="lb-gd pos">+4</td>
+      </tr>
+      <tr class="lb-row third">
+        <td class="lb-rank bronze">3</td>
+        <td class="lb-name">Matt &amp; Tony</td>
+        <td class="lb-pills">
+          <span class="team-pill sm germany">Germany</span>
+          <span class="team-pill sm netherlands">Netherlands</span>
+          <span class="team-pill sm paraguay">Paraguay</span>
+          <span class="team-pill sm egypt">Egypt</span>
+        </td>
+        <td class="lb-pts">11</td>
+        <td class="lb-gd pos">+4</td>
+      </tr>
+      <tr class="lb-row">
+        <td class="lb-rank bronze">4</td>
+        <td class="lb-name">Dom &amp; Giac</td>
+        <td class="lb-pills">
+          <span class="team-pill sm portugal">Portugal</span>
+          <span class="team-pill sm mexico">Mexico</span>
+          <span class="team-pill sm canada">Canada</span>
+          <span class="team-pill sm tbd">TBD</span>
+        </td>
+        <td class="lb-pts">10</td>
+        <td class="lb-gd pos">+3</td>
+      </tr>
+      <tr class="lb-row">
+        <td class="lb-rank bronze">4</td>
+        <td class="lb-name">Dave &amp; Pat</td>
+        <td class="lb-pills">
+          <span class="team-pill sm argentina">Argentina</span>
+          <span class="team-pill sm colombia">Colombia</span>
+          <span class="team-pill sm turkey">Turkey</span>
+          <span class="team-pill sm tbd">TBD</span>
+        </td>
+        <td class="lb-pts">10</td>
+        <td class="lb-gd pos">+1</td>
+      </tr>
+      <tr class="lb-row">
+        <td class="lb-rank bronze">4</td>
+        <td class="lb-name">Farhad &amp; Rol</td>
+        <td class="lb-pills">
+          <span class="team-pill sm brasil">Brasil</span>
+          <span class="team-pill sm switzerland">Switzerland</span>
+          <span class="team-pill sm ecuador">Ecuador</span>
+          <span class="team-pill sm tbd">TBD</span>
+        </td>
+        <td class="lb-pts">10</td>
+        <td class="lb-gd pos">+1</td>
+      </tr>
+      <tr class="lb-row">
+        <td class="lb-rank">7</td>
+        <td class="lb-name">Scott &amp; Rob</td>
+        <td class="lb-pills">
+          <span class="team-pill sm belgium">Belgium</span>
+          <span class="team-pill sm norway">Norway</span>
+          <span class="team-pill sm senegal">Senegal</span>
+          <span class="team-pill sm austria">Austria</span>
+        </td>
+        <td class="lb-pts">8</td>
+        <td class="lb-gd neg">−2</td>
+      </tr>
+      <tr class="lb-row">
+        <td class="lb-rank">8</td>
+        <td class="lb-name">Charles &amp; Bruno</td>
+        <td class="lb-pills">
+          <span class="team-pill sm england">England</span>
+          <span class="team-pill sm morocco">Morocco</span>
+          <span class="team-pill sm southkorea">South Korea</span>
+          <span class="team-pill sm tbd">TBD</span>
+        </td>
+        <td class="lb-pts">7</td>
+        <td class="lb-gd neg">−3</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- TEAM STATS BREAKDOWN -->
+  <div class="stats-grid">
+
+    <!-- 1. Jocke & Benu -->
+    <div class="stats-card">
+      <div class="stats-card-hdr first">
+        <span>Jocke &amp; Benu</span>
+        <div class="stats-totals"><span class="stats-pts">13 pts</span><span class="stats-gd pos">+7</span></div>
+      </div>
+      <table class="stats-tbl">
+        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
+        <tbody>
+          <tr><td class="tl"><span class="team-pill sm france">France</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+5</td><td class="pts-n">6</td></tr>
+          <tr><td class="tl"><span class="team-pill sm uruguay">Uruguay</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm usa">USA</span></td><td>2</td><td>1</td><td>0</td><td>1</td><td class="zero">0</td><td class="pts-n">3</td></tr>
+          <tr class="tbd"><td class="tl" colspan="6">TBD · TBD · TBD</td><td class="pts-n">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 2. John & Erik -->
+    <div class="stats-card">
+      <div class="stats-card-hdr second">
+        <span>John &amp; Erik</span>
+        <div class="stats-totals"><span class="stats-pts">11 pts</span><span class="stats-gd pos">+4</span></div>
+      </div>
+      <table class="stats-tbl">
+        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
+        <tbody>
+          <tr><td class="tl"><span class="team-pill sm spain">Spain</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+4</td><td class="pts-n">6</td></tr>
+          <tr><td class="tl"><span class="team-pill sm japan">Japan</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm croatia">Croatia</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−2</td><td class="pts-n">1</td></tr>
+          <tr class="tbd"><td class="tl" colspan="6">TBD · TBD · TBD</td><td class="pts-n">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 3. Matt & Tony -->
+    <div class="stats-card">
+      <div class="stats-card-hdr third">
+        <span>Matt &amp; Tony</span>
+        <div class="stats-totals"><span class="stats-pts">11 pts</span><span class="stats-gd pos">+4</span></div>
+      </div>
+      <table class="stats-tbl">
+        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
+        <tbody>
+          <tr><td class="tl"><span class="team-pill sm germany">Germany</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+6</td><td class="pts-n">6</td></tr>
+          <tr><td class="tl"><span class="team-pill sm netherlands">Netherlands</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm paraguay">Paraguay</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−1</td><td class="pts-n">1</td></tr>
+          <tr><td class="tl"><span class="team-pill sm egypt">Egypt</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−3</td><td class="pts-n">0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 4. Dom & Giac -->
+    <div class="stats-card">
+      <div class="stats-card-hdr">
+        <span>Dom &amp; Giac</span>
+        <div class="stats-totals"><span class="stats-pts">10 pts</span><span class="stats-gd pos">+3</span></div>
+      </div>
+      <table class="stats-tbl">
+        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
+        <tbody>
+          <tr><td class="tl"><span class="team-pill sm portugal">Portugal</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+5</td><td class="pts-n">6</td></tr>
+          <tr><td class="tl"><span class="team-pill sm mexico">Mexico</span></td><td>2</td><td>1</td><td>0</td><td>1</td><td class="zero">0</td><td class="pts-n">3</td></tr>
+          <tr><td class="tl"><span class="team-pill sm canada">Canada</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−2</td><td class="pts-n">1</td></tr>
+          <tr class="tbd"><td class="tl" colspan="6">TBD · TBD · TBD</td><td class="pts-n">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 5. Dave & Pat -->
+    <div class="stats-card">
+      <div class="stats-card-hdr">
+        <span>Dave &amp; Pat</span>
+        <div class="stats-totals"><span class="stats-pts">10 pts</span><span class="stats-gd pos">+1</span></div>
+      </div>
+      <table class="stats-tbl">
+        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
+        <tbody>
+          <tr><td class="tl"><span class="team-pill sm colombia">Colombia</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+3</td><td class="pts-n">6</td></tr>
+          <tr><td class="tl"><span class="team-pill sm argentina">Argentina</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm turkey">Turkey</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−4</td><td class="pts-n">0</td></tr>
+          <tr class="tbd"><td class="tl" colspan="6">TBD · TBD · TBD</td><td class="pts-n">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 6. Farhad & Rol -->
+    <div class="stats-card">
+      <div class="stats-card-hdr">
+        <span>Farhad &amp; Rol</span>
+        <div class="stats-totals"><span class="stats-pts">10 pts</span><span class="stats-gd pos">+1</span></div>
+      </div>
+      <table class="stats-tbl">
+        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
+        <tbody>
+          <tr><td class="tl"><span class="team-pill sm brasil">Brasil</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm switzerland">Switzerland</span></td><td>2</td><td>1</td><td>0</td><td>1</td><td class="neg">−1</td><td class="pts-n">3</td></tr>
+          <tr><td class="tl"><span class="team-pill sm ecuador">Ecuador</span></td><td>2</td><td>1</td><td>0</td><td>1</td><td class="zero">0</td><td class="pts-n">3</td></tr>
+          <tr class="tbd"><td class="tl" colspan="6">TBD · TBD · TBD</td><td class="pts-n">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 7. Scott & Rob -->
+    <div class="stats-card">
+      <div class="stats-card-hdr">
+        <span>Scott &amp; Rob</span>
+        <div class="stats-totals"><span class="stats-pts">8 pts</span><span class="stats-gd neg">−2</span></div>
+      </div>
+      <table class="stats-tbl">
+        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
+        <tbody>
+          <tr><td class="tl"><span class="team-pill sm belgium">Belgium</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm norway">Norway</span></td><td>2</td><td>1</td><td>0</td><td>1</td><td class="zero">0</td><td class="pts-n">3</td></tr>
+          <tr><td class="tl"><span class="team-pill sm senegal">Senegal</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−1</td><td class="pts-n">1</td></tr>
+          <tr><td class="tl"><span class="team-pill sm austria">Austria</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−3</td><td class="pts-n">0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 8. Charles & Bruno -->
+    <div class="stats-card">
+      <div class="stats-card-hdr">
+        <span>Charles &amp; Bruno</span>
+        <div class="stats-totals"><span class="stats-pts">7 pts</span><span class="stats-gd neg">−3</span></div>
+      </div>
+      <table class="stats-tbl">
+        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
+        <tbody>
+          <tr><td class="tl"><span class="team-pill sm england">England</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+1</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm morocco">Morocco</span></td><td>2</td><td>1</td><td>0</td><td>1</td><td class="zero">0</td><td class="pts-n">3</td></tr>
+          <tr><td class="tl"><span class="team-pill sm southkorea">South Korea</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−4</td><td class="pts-n">0</td></tr>
+          <tr class="tbd"><td class="tl" colspan="6">TBD · TBD · TBD</td><td class="pts-n">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 
 </div>

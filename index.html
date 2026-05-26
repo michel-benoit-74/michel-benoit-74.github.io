@@ -453,11 +453,30 @@
     letter-spacing: 0.5px;
     text-transform: uppercase;
     border-radius: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
-  .group-team.taken {
+  .group-owner {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+    margin-left: 6px;
+    flex-shrink: 0;
+  }
+  .group-owner.je { color: #CC1B1B; }
+  .group-owner.jb { color: #1040A0; }
+  .group-owner.dp { color: #007040; }
+  .group-owner.dg { color: #B85C00; }
+  .group-owner.cb { color: #8B2FC9; }
+  .group-owner.fr { color: #A07800; }
+  .group-owner.mt { color: #006B80; }
+  .group-owner.sr { color: #B01070; }
+  .group-team.taken .group-name-text {
     color: var(--muted);
     text-decoration: line-through;
-    opacity: 0.45;
+    opacity: 0.5;
   }
   @media (max-width: 700px) {
     .groups-grid { grid-template-columns: repeat(2, 1fr); }
@@ -705,28 +724,28 @@
     <div class="group-card">
       <div class="group-card-header">Group A</div>
       <div class="group-card-teams">
-        <span class="group-team taken">Mexico</span>
+        <span class="group-team taken"><span class="group-name-text">Mexico</span><span class="group-owner dg">D&amp;G</span></span>
         <span class="group-team">South Africa</span>
-        <span class="group-team taken">South Korea</span>
-        <span class="group-team taken">Czechia</span>
+        <span class="group-team taken"><span class="group-name-text">South Korea</span><span class="group-owner cb">C&amp;B</span></span>
+        <span class="group-team taken"><span class="group-name-text">Czechia</span><span class="group-owner fr">F&amp;R</span></span>
       </div>
     </div>
 
     <div class="group-card">
       <div class="group-card-header">Group B</div>
       <div class="group-card-teams">
-        <span class="group-team taken">Canada</span>
-        <span class="group-team taken">Switzerland</span>
+        <span class="group-team taken"><span class="group-name-text">Canada</span><span class="group-owner dg">D&amp;G</span></span>
+        <span class="group-team taken"><span class="group-name-text">Switzerland</span><span class="group-owner fr">F&amp;R</span></span>
         <span class="group-team">Qatar</span>
-        <span class="group-team taken">Bosnia &amp; Herz.</span>
+        <span class="group-team taken"><span class="group-name-text">Bosnia &amp; Herz.</span><span class="group-owner jb">J&amp;B</span></span>
       </div>
     </div>
 
     <div class="group-card">
       <div class="group-card-header">Group C</div>
       <div class="group-card-teams">
-        <span class="group-team taken">Brazil</span>
-        <span class="group-team taken">Morocco</span>
+        <span class="group-team taken"><span class="group-name-text">Brazil</span><span class="group-owner fr">F&amp;R</span></span>
+        <span class="group-team taken"><span class="group-name-text">Morocco</span><span class="group-owner cb">C&amp;B</span></span>
         <span class="group-team">Haiti</span>
         <span class="group-team">Scotland</span>
       </div>
@@ -735,38 +754,38 @@
     <div class="group-card">
       <div class="group-card-header">Group D</div>
       <div class="group-card-teams">
-        <span class="group-team taken">USA</span>
-        <span class="group-team taken">Paraguay</span>
-        <span class="group-team taken">Australia</span>
-        <span class="group-team taken">Turkey</span>
+        <span class="group-team taken"><span class="group-name-text">USA</span><span class="group-owner jb">J&amp;B</span></span>
+        <span class="group-team taken"><span class="group-name-text">Paraguay</span><span class="group-owner mt">M&amp;T</span></span>
+        <span class="group-team taken"><span class="group-name-text">Australia</span><span class="group-owner cb">C&amp;B</span></span>
+        <span class="group-team taken"><span class="group-name-text">Turkey</span><span class="group-owner dp">D&amp;P</span></span>
       </div>
     </div>
 
     <div class="group-card">
       <div class="group-card-header">Group E</div>
       <div class="group-card-teams">
-        <span class="group-team taken">Germany</span>
+        <span class="group-team taken"><span class="group-name-text">Germany</span><span class="group-owner mt">M&amp;T</span></span>
         <span class="group-team">Curaçao</span>
-        <span class="group-team taken">Côte d'Ivoire</span>
-        <span class="group-team taken">Ecuador</span>
+        <span class="group-team taken"><span class="group-name-text">Côte d'Ivoire</span><span class="group-owner dg">D&amp;G</span></span>
+        <span class="group-team taken"><span class="group-name-text">Ecuador</span><span class="group-owner fr">F&amp;R</span></span>
       </div>
     </div>
 
     <div class="group-card">
       <div class="group-card-header">Group F</div>
       <div class="group-card-teams">
-        <span class="group-team taken">Netherlands</span>
-        <span class="group-team taken">Japan</span>
+        <span class="group-team taken"><span class="group-name-text">Netherlands</span><span class="group-owner mt">M&amp;T</span></span>
+        <span class="group-team taken"><span class="group-name-text">Japan</span><span class="group-owner je">J&amp;E</span></span>
         <span class="group-team">Tunisia</span>
-        <span class="group-team taken">Sweden</span>
+        <span class="group-team taken"><span class="group-name-text">Sweden</span><span class="group-owner dp">D&amp;P</span></span>
       </div>
     </div>
 
     <div class="group-card">
       <div class="group-card-header">Group G</div>
       <div class="group-card-teams">
-        <span class="group-team taken">Belgium</span>
-        <span class="group-team taken">Egypt</span>
+        <span class="group-team taken"><span class="group-name-text">Belgium</span><span class="group-owner sr">S&amp;R</span></span>
+        <span class="group-team taken"><span class="group-name-text">Egypt</span><span class="group-owner mt">M&amp;T</span></span>
         <span class="group-team">Iran</span>
         <span class="group-team">New Zealand</span>
       </div>
@@ -775,19 +794,19 @@
     <div class="group-card">
       <div class="group-card-header">Group H</div>
       <div class="group-card-teams">
-        <span class="group-team taken">Spain</span>
+        <span class="group-team taken"><span class="group-name-text">Spain</span><span class="group-owner je">J&amp;E</span></span>
         <span class="group-team">Cabo Verde</span>
         <span class="group-team">Saudi Arabia</span>
-        <span class="group-team taken">Uruguay</span>
+        <span class="group-team taken"><span class="group-name-text">Uruguay</span><span class="group-owner jb">J&amp;B</span></span>
       </div>
     </div>
 
     <div class="group-card">
       <div class="group-card-header">Group I</div>
       <div class="group-card-teams">
-        <span class="group-team taken">France</span>
-        <span class="group-team taken">Senegal</span>
-        <span class="group-team taken">Norway</span>
+        <span class="group-team taken"><span class="group-name-text">France</span><span class="group-owner jb">J&amp;B</span></span>
+        <span class="group-team taken"><span class="group-name-text">Senegal</span><span class="group-owner sr">S&amp;R</span></span>
+        <span class="group-team taken"><span class="group-name-text">Norway</span><span class="group-owner sr">S&amp;R</span></span>
         <span class="group-team">Iraq</span>
       </div>
     </div>
@@ -795,9 +814,9 @@
     <div class="group-card">
       <div class="group-card-header">Group J</div>
       <div class="group-card-teams">
-        <span class="group-team taken">Argentina</span>
+        <span class="group-team taken"><span class="group-name-text">Argentina</span><span class="group-owner dp">D&amp;P</span></span>
         <span class="group-team">Algeria</span>
-        <span class="group-team taken">Austria</span>
+        <span class="group-team taken"><span class="group-name-text">Austria</span><span class="group-owner sr">S&amp;R</span></span>
         <span class="group-team">Jordan</span>
       </div>
     </div>
@@ -805,9 +824,9 @@
     <div class="group-card">
       <div class="group-card-header">Group K</div>
       <div class="group-card-teams">
-        <span class="group-team taken">Portugal</span>
+        <span class="group-team taken"><span class="group-name-text">Portugal</span><span class="group-owner dg">D&amp;G</span></span>
         <span class="group-team">Uzbekistan</span>
-        <span class="group-team taken">Colombia</span>
+        <span class="group-team taken"><span class="group-name-text">Colombia</span><span class="group-owner dp">D&amp;P</span></span>
         <span class="group-team">Congo DR</span>
       </div>
     </div>
@@ -815,8 +834,8 @@
     <div class="group-card">
       <div class="group-card-header">Group L</div>
       <div class="group-card-teams">
-        <span class="group-team taken">England</span>
-        <span class="group-team taken">Croatia</span>
+        <span class="group-team taken"><span class="group-name-text">England</span><span class="group-owner je">J&amp;E</span></span>
+        <span class="group-team taken"><span class="group-name-text">Croatia</span><span class="group-owner je">J&amp;E</span></span>
         <span class="group-team">Ghana</span>
         <span class="group-team">Panama</span>
       </div>

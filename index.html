@@ -642,6 +642,296 @@
 
 <div class="container">
 
+
+  <!-- LEADERBOARD -->
+  <div class="section-title">Leaderboard</div>
+  <div class="lb-note">⚽ Simulated standings — 2 group stage matches played per team (updates live once tournament begins)</div>
+
+  <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 32px;">
+  <table class="lb-table">
+    <thead>
+      <tr>
+        <th class="c">#</th>
+        <th>Group</th>
+        <th>Teams</th>
+        <th class="c">Pts</th>
+        <th class="c">+/−</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="lb-row lb-you first">
+        <td class="lb-rank gold">🥇</td>
+        <td class="lb-name">Jocke &amp; Benu</td>
+        <td class="lb-pills">
+          <span class="team-pill sm france">France</span>
+          <span class="team-pill sm usa">USA</span>
+          <span class="team-pill sm uruguay">Uruguay</span>
+          <span class="team-pill sm bosnia">Bosnia</span>
+          <span class="team-pill sm ghana">Ghana</span>
+          <span class="team-pill sm iraq">Iraq</span>
+        </td>
+        <td class="lb-pts">21</td>
+        <td class="lb-gd pos">+4</td>
+      </tr>
+      <tr class="lb-row second">
+        <td class="lb-rank silver">🥈</td>
+        <td class="lb-name">Farhad &amp; Rol</td>
+        <td class="lb-pills">
+          <span class="team-pill sm brasil">Brasil</span>
+          <span class="team-pill sm switzerland">Switzerland</span>
+          <span class="team-pill sm ecuador">Ecuador</span>
+          <span class="team-pill sm czechia">Czechia</span>
+          <span class="team-pill sm drcongo">DR Congo</span>
+          <span class="team-pill sm saudiarabia">Saudi Arabia</span>
+        </td>
+        <td class="lb-pts">18</td>
+        <td class="lb-gd pos">+3</td>
+      </tr>
+      <tr class="lb-row third">
+        <td class="lb-rank bronze">🥉</td>
+        <td class="lb-name">Matt &amp; Tony</td>
+        <td class="lb-pills">
+          <span class="team-pill sm germany">Germany</span>
+          <span class="team-pill sm netherlands">Netherlands</span>
+          <span class="team-pill sm paraguay">Paraguay</span>
+          <span class="team-pill sm egypt">Egypt</span>
+          <span class="team-pill sm southafrica">South Africa</span>
+          <span class="team-pill sm caboverde">Cabo Verde</span>
+        </td>
+        <td class="lb-pts">18</td>
+        <td class="lb-gd pos">+2</td>
+      </tr>
+      <tr class="lb-row">
+        <td class="lb-rank">4</td>
+        <td class="lb-name">Dave &amp; Pat</td>
+        <td class="lb-pills">
+          <span class="team-pill sm argentina">Argentina</span>
+          <span class="team-pill sm colombia">Colombia</span>
+          <span class="team-pill sm turkey">Turkey</span>
+          <span class="team-pill sm sweden">Sweden</span>
+          <span class="team-pill sm iran">Iran</span>
+          <span class="team-pill sm qatar">Qatar</span>
+        </td>
+        <td class="lb-pts">18</td>
+        <td class="lb-gd pos">+1</td>
+      </tr>
+      <tr class="lb-row">
+        <td class="lb-rank">5</td>
+        <td class="lb-name">Dom &amp; Giac</td>
+        <td class="lb-pills">
+          <span class="team-pill sm portugal">Portugal</span>
+          <span class="team-pill sm mexico">Mexico</span>
+          <span class="team-pill sm canada">Canada</span>
+          <span class="team-pill sm ivory">Côte d'Ivoire</span>
+          <span class="team-pill sm tunisia">Tunisia</span>
+          <span class="team-pill sm haiti">Haiti</span>
+        </td>
+        <td class="lb-pts">17</td>
+        <td class="lb-gd pos">+2</td>
+      </tr>
+      <tr class="lb-row">
+        <td class="lb-rank">6</td>
+        <td class="lb-name">John &amp; Erik</td>
+        <td class="lb-pills">
+          <span class="team-pill sm spain">Spain</span>
+          <span class="team-pill sm japan">Japan</span>
+          <span class="team-pill sm croatia">Croatia</span>
+          <span class="team-pill sm algeria">Algeria</span>
+          <span class="team-pill sm scotland">Scotland</span>
+          <span class="team-pill sm curacao">Curaçao</span>
+        </td>
+        <td class="lb-pts">14</td>
+        <td class="lb-gd neg">−3</td>
+      </tr>
+      <tr class="lb-row">
+        <td class="lb-rank">7</td>
+        <td class="lb-name">Scott &amp; Rob</td>
+        <td class="lb-pills">
+          <span class="team-pill sm belgium">Belgium</span>
+          <span class="team-pill sm norway">Norway</span>
+          <span class="team-pill sm senegal">Senegal</span>
+          <span class="team-pill sm austria">Austria</span>
+          <span class="team-pill sm panama">Panama</span>
+          <span class="team-pill sm newzealand">New Zealand</span>
+        </td>
+        <td class="lb-pts">13</td>
+        <td class="lb-gd neg">−4</td>
+      </tr>
+      <tr class="lb-row">
+        <td class="lb-rank">8</td>
+        <td class="lb-name">Charles &amp; Bruno</td>
+        <td class="lb-pills">
+          <span class="team-pill sm england">England</span>
+          <span class="team-pill sm morocco">Morocco</span>
+          <span class="team-pill sm southkorea">South Korea</span>
+          <span class="team-pill sm australia">Australia</span>
+          <span class="team-pill sm uzbekistan">Uzbekistan</span>
+          <span class="team-pill sm jordan">Jordan</span>
+        </td>
+        <td class="lb-pts">12</td>
+        <td class="lb-gd neg">−5</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- TEAM STATS BREAKDOWN -->
+  <div class="stats-grid">
+
+    <!-- 1. John & Erik (pick 1) -->
+    <div class="stats-card">
+      <div class="stats-card-hdr">
+        <span>John &amp; Erik</span>
+        <div class="stats-totals"><span class="stats-pts">14 pts</span><span class="stats-gd neg">−3</span></div>
+      </div>
+      <table class="stats-tbl">
+        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
+        <tbody>
+          <tr><td class="tl"><span class="team-pill sm spain">Spain</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+4</td><td class="pts-n">6</td></tr>
+          <tr><td class="tl"><span class="team-pill sm japan">Japan</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+1</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm croatia">Croatia</span></td><td>2</td><td>0</td><td>2</td><td>0</td><td class="zero">0</td><td class="pts-n">2</td></tr>
+          <tr><td class="tl"><span class="team-pill sm algeria">Algeria</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−1</td><td class="pts-n">1</td></tr>
+          <tr><td class="tl"><span class="team-pill sm scotland">Scotland</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−2</td><td class="pts-n">1</td></tr>
+          <tr><td class="tl"><span class="team-pill sm curacao">Curaçao</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−5</td><td class="pts-n">0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 2. Jocke & Benu (pick 2) -->
+    <div class="stats-card">
+      <div class="stats-card-hdr first">
+        <span>Jocke &amp; Benu</span>
+        <div class="stats-totals"><span class="stats-pts">21 pts</span><span class="stats-gd pos">+4</span></div>
+      </div>
+      <table class="stats-tbl">
+        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
+        <tbody>
+          <tr><td class="tl"><span class="team-pill sm france">France</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+3</td><td class="pts-n">6</td></tr>
+          <tr><td class="tl"><span class="team-pill sm usa">USA</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+1</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm bosnia">Bosnia</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+1</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm ghana">Ghana</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm uruguay">Uruguay</span></td><td>2</td><td>1</td><td>0</td><td>1</td><td class="pos">+1</td><td class="pts-n">3</td></tr>
+          <tr><td class="tl"><span class="team-pill sm iraq">Iraq</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−4</td><td class="pts-n">0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 3. Dave & Pat (pick 3) -->
+    <div class="stats-card">
+      <div class="stats-card-hdr">
+        <span>Dave &amp; Pat</span>
+        <div class="stats-totals"><span class="stats-pts">18 pts</span><span class="stats-gd pos">+1</span></div>
+      </div>
+      <table class="stats-tbl">
+        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
+        <tbody>
+          <tr><td class="tl"><span class="team-pill sm argentina">Argentina</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+3</td><td class="pts-n">6</td></tr>
+          <tr><td class="tl"><span class="team-pill sm colombia">Colombia</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+1</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm turkey">Turkey</span></td><td>2</td><td>1</td><td>0</td><td>1</td><td class="zero">0</td><td class="pts-n">3</td></tr>
+          <tr><td class="tl"><span class="team-pill sm sweden">Sweden</span></td><td>2</td><td>1</td><td>0</td><td>1</td><td class="zero">0</td><td class="pts-n">3</td></tr>
+          <tr><td class="tl"><span class="team-pill sm iran">Iran</span></td><td>2</td><td>0</td><td>2</td><td>0</td><td class="zero">0</td><td class="pts-n">2</td></tr>
+          <tr><td class="tl"><span class="team-pill sm qatar">Qatar</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−3</td><td class="pts-n">0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 4. Dom & Giac (pick 4) -->
+    <div class="stats-card">
+      <div class="stats-card-hdr">
+        <span>Dom &amp; Giac</span>
+        <div class="stats-totals"><span class="stats-pts">17 pts</span><span class="stats-gd pos">+2</span></div>
+      </div>
+      <table class="stats-tbl">
+        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
+        <tbody>
+          <tr><td class="tl"><span class="team-pill sm portugal">Portugal</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+5</td><td class="pts-n">6</td></tr>
+          <tr><td class="tl"><span class="team-pill sm mexico">Mexico</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+3</td><td class="pts-n">6</td></tr>
+          <tr><td class="tl"><span class="team-pill sm ivory">Côte d'Ivoire</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm canada">Canada</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−1</td><td class="pts-n">1</td></tr>
+          <tr><td class="tl"><span class="team-pill sm tunisia">Tunisia</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−3</td><td class="pts-n">0</td></tr>
+          <tr><td class="tl"><span class="team-pill sm haiti">Haiti</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−4</td><td class="pts-n">0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 5. Charles & Bruno (pick 5) -->
+    <div class="stats-card">
+      <div class="stats-card-hdr">
+        <span>Charles &amp; Bruno</span>
+        <div class="stats-totals"><span class="stats-pts">12 pts</span><span class="stats-gd neg">−5</span></div>
+      </div>
+      <table class="stats-tbl">
+        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
+        <tbody>
+          <tr><td class="tl"><span class="team-pill sm england">England</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm morocco">Morocco</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+1</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm southkorea">South Korea</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+1</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm australia">Australia</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−2</td><td class="pts-n">0</td></tr>
+          <tr><td class="tl"><span class="team-pill sm uzbekistan">Uzbekistan</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−3</td><td class="pts-n">0</td></tr>
+          <tr><td class="tl"><span class="team-pill sm jordan">Jordan</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−4</td><td class="pts-n">0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 6. Farhad & Rol (pick 6) -->
+    <div class="stats-card">
+      <div class="stats-card-hdr second">
+        <span>Farhad &amp; Rol</span>
+        <div class="stats-totals"><span class="stats-pts">18 pts</span><span class="stats-gd pos">+3</span></div>
+      </div>
+      <table class="stats-tbl">
+        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
+        <tbody>
+          <tr><td class="tl"><span class="team-pill sm brasil">Brasil</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+5</td><td class="pts-n">6</td></tr>
+          <tr><td class="tl"><span class="team-pill sm switzerland">Switzerland</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+3</td><td class="pts-n">6</td></tr>
+          <tr><td class="tl"><span class="team-pill sm saudiarabia">Saudi Arabia</span></td><td>2</td><td>1</td><td>0</td><td>1</td><td class="zero">0</td><td class="pts-n">3</td></tr>
+          <tr><td class="tl"><span class="team-pill sm ecuador">Ecuador</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−1</td><td class="pts-n">1</td></tr>
+          <tr><td class="tl"><span class="team-pill sm czechia">Czechia</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−1</td><td class="pts-n">1</td></tr>
+          <tr><td class="tl"><span class="team-pill sm drcongo">DR Congo</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−3</td><td class="pts-n">1</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 7. Matt & Tony (pick 7) -->
+    <div class="stats-card">
+      <div class="stats-card-hdr third">
+        <span>Matt &amp; Tony</span>
+        <div class="stats-totals"><span class="stats-pts">18 pts</span><span class="stats-gd pos">+2</span></div>
+      </div>
+      <table class="stats-tbl">
+        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
+        <tbody>
+          <tr><td class="tl"><span class="team-pill sm germany">Germany</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+4</td><td class="pts-n">6</td></tr>
+          <tr><td class="tl"><span class="team-pill sm netherlands">Netherlands</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm paraguay">Paraguay</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+1</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm egypt">Egypt</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+3</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm southafrica">South Africa</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−3</td><td class="pts-n">0</td></tr>
+          <tr><td class="tl"><span class="team-pill sm caboverde">Cabo Verde</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−5</td><td class="pts-n">0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 8. Scott & Rob (pick 8) -->
+    <div class="stats-card">
+      <div class="stats-card-hdr">
+        <span>Scott &amp; Rob</span>
+        <div class="stats-totals"><span class="stats-pts">13 pts</span><span class="stats-gd neg">−4</span></div>
+      </div>
+      <table class="stats-tbl">
+        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
+        <tbody>
+          <tr><td class="tl"><span class="team-pill sm belgium">Belgium</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm norway">Norway</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm austria">Austria</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
+          <tr><td class="tl"><span class="team-pill sm senegal">Senegal</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−1</td><td class="pts-n">1</td></tr>
+          <tr><td class="tl"><span class="team-pill sm panama">Panama</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−4</td><td class="pts-n">0</td></tr>
+          <tr><td class="tl"><span class="team-pill sm newzealand">New Zealand</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−5</td><td class="pts-n">0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
   <!-- DRAFT BOARD -->
   <div class="section-title">Draft Board</div>
   <div class="draft-table-wrap">
@@ -1026,295 +1316,6 @@
       <div class="prize-amount">$300</div>
       <div class="prize-pct">Group holding champion</div>
     </div>
-  </div>
-
-  <!-- LEADERBOARD -->
-  <div class="section-title" style="margin-top:20px;">Leaderboard</div>
-  <div class="lb-note">⚽ Simulated standings — 2 group stage matches played per team (updates live once tournament begins)</div>
-
-  <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 32px;">
-  <table class="lb-table">
-    <thead>
-      <tr>
-        <th class="c">#</th>
-        <th>Group</th>
-        <th>Teams</th>
-        <th class="c">Pts</th>
-        <th class="c">+/−</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="lb-row lb-you first">
-        <td class="lb-rank gold">🥇</td>
-        <td class="lb-name">Jocke &amp; Benu</td>
-        <td class="lb-pills">
-          <span class="team-pill sm france">France</span>
-          <span class="team-pill sm usa">USA</span>
-          <span class="team-pill sm uruguay">Uruguay</span>
-          <span class="team-pill sm bosnia">Bosnia</span>
-          <span class="team-pill sm ghana">Ghana</span>
-          <span class="team-pill sm iraq">Iraq</span>
-        </td>
-        <td class="lb-pts">21</td>
-        <td class="lb-gd pos">+4</td>
-      </tr>
-      <tr class="lb-row second">
-        <td class="lb-rank silver">🥈</td>
-        <td class="lb-name">Farhad &amp; Rol</td>
-        <td class="lb-pills">
-          <span class="team-pill sm brasil">Brasil</span>
-          <span class="team-pill sm switzerland">Switzerland</span>
-          <span class="team-pill sm ecuador">Ecuador</span>
-          <span class="team-pill sm czechia">Czechia</span>
-          <span class="team-pill sm drcongo">DR Congo</span>
-          <span class="team-pill sm saudiarabia">Saudi Arabia</span>
-        </td>
-        <td class="lb-pts">18</td>
-        <td class="lb-gd pos">+3</td>
-      </tr>
-      <tr class="lb-row third">
-        <td class="lb-rank bronze">🥉</td>
-        <td class="lb-name">Matt &amp; Tony</td>
-        <td class="lb-pills">
-          <span class="team-pill sm germany">Germany</span>
-          <span class="team-pill sm netherlands">Netherlands</span>
-          <span class="team-pill sm paraguay">Paraguay</span>
-          <span class="team-pill sm egypt">Egypt</span>
-          <span class="team-pill sm southafrica">South Africa</span>
-          <span class="team-pill sm caboverde">Cabo Verde</span>
-        </td>
-        <td class="lb-pts">18</td>
-        <td class="lb-gd pos">+2</td>
-      </tr>
-      <tr class="lb-row">
-        <td class="lb-rank">4</td>
-        <td class="lb-name">Dave &amp; Pat</td>
-        <td class="lb-pills">
-          <span class="team-pill sm argentina">Argentina</span>
-          <span class="team-pill sm colombia">Colombia</span>
-          <span class="team-pill sm turkey">Turkey</span>
-          <span class="team-pill sm sweden">Sweden</span>
-          <span class="team-pill sm iran">Iran</span>
-          <span class="team-pill sm qatar">Qatar</span>
-        </td>
-        <td class="lb-pts">18</td>
-        <td class="lb-gd pos">+1</td>
-      </tr>
-      <tr class="lb-row">
-        <td class="lb-rank">5</td>
-        <td class="lb-name">Dom &amp; Giac</td>
-        <td class="lb-pills">
-          <span class="team-pill sm portugal">Portugal</span>
-          <span class="team-pill sm mexico">Mexico</span>
-          <span class="team-pill sm canada">Canada</span>
-          <span class="team-pill sm ivory">Côte d'Ivoire</span>
-          <span class="team-pill sm tunisia">Tunisia</span>
-          <span class="team-pill sm haiti">Haiti</span>
-        </td>
-        <td class="lb-pts">17</td>
-        <td class="lb-gd pos">+2</td>
-      </tr>
-      <tr class="lb-row">
-        <td class="lb-rank">6</td>
-        <td class="lb-name">John &amp; Erik</td>
-        <td class="lb-pills">
-          <span class="team-pill sm spain">Spain</span>
-          <span class="team-pill sm japan">Japan</span>
-          <span class="team-pill sm croatia">Croatia</span>
-          <span class="team-pill sm algeria">Algeria</span>
-          <span class="team-pill sm scotland">Scotland</span>
-          <span class="team-pill sm curacao">Curaçao</span>
-        </td>
-        <td class="lb-pts">14</td>
-        <td class="lb-gd neg">−3</td>
-      </tr>
-      <tr class="lb-row">
-        <td class="lb-rank">7</td>
-        <td class="lb-name">Scott &amp; Rob</td>
-        <td class="lb-pills">
-          <span class="team-pill sm belgium">Belgium</span>
-          <span class="team-pill sm norway">Norway</span>
-          <span class="team-pill sm senegal">Senegal</span>
-          <span class="team-pill sm austria">Austria</span>
-          <span class="team-pill sm panama">Panama</span>
-          <span class="team-pill sm newzealand">New Zealand</span>
-        </td>
-        <td class="lb-pts">13</td>
-        <td class="lb-gd neg">−4</td>
-      </tr>
-      <tr class="lb-row">
-        <td class="lb-rank">8</td>
-        <td class="lb-name">Charles &amp; Bruno</td>
-        <td class="lb-pills">
-          <span class="team-pill sm england">England</span>
-          <span class="team-pill sm morocco">Morocco</span>
-          <span class="team-pill sm southkorea">South Korea</span>
-          <span class="team-pill sm australia">Australia</span>
-          <span class="team-pill sm uzbekistan">Uzbekistan</span>
-          <span class="team-pill sm jordan">Jordan</span>
-        </td>
-        <td class="lb-pts">12</td>
-        <td class="lb-gd neg">−5</td>
-      </tr>
-    </tbody>
-  </table>
-  </div>
-
-  <!-- TEAM STATS BREAKDOWN -->
-  <div class="stats-grid">
-
-    <!-- 1. John & Erik (pick 1) -->
-    <div class="stats-card">
-      <div class="stats-card-hdr">
-        <span>John &amp; Erik</span>
-        <div class="stats-totals"><span class="stats-pts">14 pts</span><span class="stats-gd neg">−3</span></div>
-      </div>
-      <table class="stats-tbl">
-        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
-        <tbody>
-          <tr><td class="tl"><span class="team-pill sm spain">Spain</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+4</td><td class="pts-n">6</td></tr>
-          <tr><td class="tl"><span class="team-pill sm japan">Japan</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+1</td><td class="pts-n">4</td></tr>
-          <tr><td class="tl"><span class="team-pill sm croatia">Croatia</span></td><td>2</td><td>0</td><td>2</td><td>0</td><td class="zero">0</td><td class="pts-n">2</td></tr>
-          <tr><td class="tl"><span class="team-pill sm algeria">Algeria</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−1</td><td class="pts-n">1</td></tr>
-          <tr><td class="tl"><span class="team-pill sm scotland">Scotland</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−2</td><td class="pts-n">1</td></tr>
-          <tr><td class="tl"><span class="team-pill sm curacao">Curaçao</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−5</td><td class="pts-n">0</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 2. Jocke & Benu (pick 2) -->
-    <div class="stats-card">
-      <div class="stats-card-hdr first">
-        <span>Jocke &amp; Benu</span>
-        <div class="stats-totals"><span class="stats-pts">21 pts</span><span class="stats-gd pos">+4</span></div>
-      </div>
-      <table class="stats-tbl">
-        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
-        <tbody>
-          <tr><td class="tl"><span class="team-pill sm france">France</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+3</td><td class="pts-n">6</td></tr>
-          <tr><td class="tl"><span class="team-pill sm usa">USA</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+1</td><td class="pts-n">4</td></tr>
-          <tr><td class="tl"><span class="team-pill sm bosnia">Bosnia</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+1</td><td class="pts-n">4</td></tr>
-          <tr><td class="tl"><span class="team-pill sm ghana">Ghana</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
-          <tr><td class="tl"><span class="team-pill sm uruguay">Uruguay</span></td><td>2</td><td>1</td><td>0</td><td>1</td><td class="pos">+1</td><td class="pts-n">3</td></tr>
-          <tr><td class="tl"><span class="team-pill sm iraq">Iraq</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−4</td><td class="pts-n">0</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 3. Dave & Pat (pick 3) -->
-    <div class="stats-card">
-      <div class="stats-card-hdr">
-        <span>Dave &amp; Pat</span>
-        <div class="stats-totals"><span class="stats-pts">18 pts</span><span class="stats-gd pos">+1</span></div>
-      </div>
-      <table class="stats-tbl">
-        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
-        <tbody>
-          <tr><td class="tl"><span class="team-pill sm argentina">Argentina</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+3</td><td class="pts-n">6</td></tr>
-          <tr><td class="tl"><span class="team-pill sm colombia">Colombia</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+1</td><td class="pts-n">4</td></tr>
-          <tr><td class="tl"><span class="team-pill sm turkey">Turkey</span></td><td>2</td><td>1</td><td>0</td><td>1</td><td class="zero">0</td><td class="pts-n">3</td></tr>
-          <tr><td class="tl"><span class="team-pill sm sweden">Sweden</span></td><td>2</td><td>1</td><td>0</td><td>1</td><td class="zero">0</td><td class="pts-n">3</td></tr>
-          <tr><td class="tl"><span class="team-pill sm iran">Iran</span></td><td>2</td><td>0</td><td>2</td><td>0</td><td class="zero">0</td><td class="pts-n">2</td></tr>
-          <tr><td class="tl"><span class="team-pill sm qatar">Qatar</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−3</td><td class="pts-n">0</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 4. Dom & Giac (pick 4) -->
-    <div class="stats-card">
-      <div class="stats-card-hdr">
-        <span>Dom &amp; Giac</span>
-        <div class="stats-totals"><span class="stats-pts">17 pts</span><span class="stats-gd pos">+2</span></div>
-      </div>
-      <table class="stats-tbl">
-        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
-        <tbody>
-          <tr><td class="tl"><span class="team-pill sm portugal">Portugal</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+5</td><td class="pts-n">6</td></tr>
-          <tr><td class="tl"><span class="team-pill sm mexico">Mexico</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+3</td><td class="pts-n">6</td></tr>
-          <tr><td class="tl"><span class="team-pill sm ivory">Côte d'Ivoire</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
-          <tr><td class="tl"><span class="team-pill sm canada">Canada</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−1</td><td class="pts-n">1</td></tr>
-          <tr><td class="tl"><span class="team-pill sm tunisia">Tunisia</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−3</td><td class="pts-n">0</td></tr>
-          <tr><td class="tl"><span class="team-pill sm haiti">Haiti</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−4</td><td class="pts-n">0</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 5. Charles & Bruno (pick 5) -->
-    <div class="stats-card">
-      <div class="stats-card-hdr">
-        <span>Charles &amp; Bruno</span>
-        <div class="stats-totals"><span class="stats-pts">12 pts</span><span class="stats-gd neg">−5</span></div>
-      </div>
-      <table class="stats-tbl">
-        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
-        <tbody>
-          <tr><td class="tl"><span class="team-pill sm england">England</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
-          <tr><td class="tl"><span class="team-pill sm morocco">Morocco</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+1</td><td class="pts-n">4</td></tr>
-          <tr><td class="tl"><span class="team-pill sm southkorea">South Korea</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+1</td><td class="pts-n">4</td></tr>
-          <tr><td class="tl"><span class="team-pill sm australia">Australia</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−2</td><td class="pts-n">0</td></tr>
-          <tr><td class="tl"><span class="team-pill sm uzbekistan">Uzbekistan</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−3</td><td class="pts-n">0</td></tr>
-          <tr><td class="tl"><span class="team-pill sm jordan">Jordan</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−4</td><td class="pts-n">0</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 6. Farhad & Rol (pick 6) -->
-    <div class="stats-card">
-      <div class="stats-card-hdr second">
-        <span>Farhad &amp; Rol</span>
-        <div class="stats-totals"><span class="stats-pts">18 pts</span><span class="stats-gd pos">+3</span></div>
-      </div>
-      <table class="stats-tbl">
-        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
-        <tbody>
-          <tr><td class="tl"><span class="team-pill sm brasil">Brasil</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+5</td><td class="pts-n">6</td></tr>
-          <tr><td class="tl"><span class="team-pill sm switzerland">Switzerland</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+3</td><td class="pts-n">6</td></tr>
-          <tr><td class="tl"><span class="team-pill sm saudiarabia">Saudi Arabia</span></td><td>2</td><td>1</td><td>0</td><td>1</td><td class="zero">0</td><td class="pts-n">3</td></tr>
-          <tr><td class="tl"><span class="team-pill sm ecuador">Ecuador</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−1</td><td class="pts-n">1</td></tr>
-          <tr><td class="tl"><span class="team-pill sm czechia">Czechia</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−1</td><td class="pts-n">1</td></tr>
-          <tr><td class="tl"><span class="team-pill sm drcongo">DR Congo</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−3</td><td class="pts-n">1</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 7. Matt & Tony (pick 7) -->
-    <div class="stats-card">
-      <div class="stats-card-hdr third">
-        <span>Matt &amp; Tony</span>
-        <div class="stats-totals"><span class="stats-pts">18 pts</span><span class="stats-gd pos">+2</span></div>
-      </div>
-      <table class="stats-tbl">
-        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
-        <tbody>
-          <tr><td class="tl"><span class="team-pill sm germany">Germany</span></td><td>2</td><td>2</td><td>0</td><td>0</td><td class="pos">+4</td><td class="pts-n">6</td></tr>
-          <tr><td class="tl"><span class="team-pill sm netherlands">Netherlands</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
-          <tr><td class="tl"><span class="team-pill sm paraguay">Paraguay</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+1</td><td class="pts-n">4</td></tr>
-          <tr><td class="tl"><span class="team-pill sm egypt">Egypt</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+3</td><td class="pts-n">4</td></tr>
-          <tr><td class="tl"><span class="team-pill sm southafrica">South Africa</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−3</td><td class="pts-n">0</td></tr>
-          <tr><td class="tl"><span class="team-pill sm caboverde">Cabo Verde</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−5</td><td class="pts-n">0</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 8. Scott & Rob (pick 8) -->
-    <div class="stats-card">
-      <div class="stats-card-hdr">
-        <span>Scott &amp; Rob</span>
-        <div class="stats-totals"><span class="stats-pts">13 pts</span><span class="stats-gd neg">−4</span></div>
-      </div>
-      <table class="stats-tbl">
-        <thead><tr><th class="tl">Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>+/−</th><th>Pts</th></tr></thead>
-        <tbody>
-          <tr><td class="tl"><span class="team-pill sm belgium">Belgium</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
-          <tr><td class="tl"><span class="team-pill sm norway">Norway</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
-          <tr><td class="tl"><span class="team-pill sm austria">Austria</span></td><td>2</td><td>1</td><td>1</td><td>0</td><td class="pos">+2</td><td class="pts-n">4</td></tr>
-          <tr><td class="tl"><span class="team-pill sm senegal">Senegal</span></td><td>2</td><td>0</td><td>1</td><td>1</td><td class="neg">−1</td><td class="pts-n">1</td></tr>
-          <tr><td class="tl"><span class="team-pill sm panama">Panama</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−4</td><td class="pts-n">0</td></tr>
-          <tr><td class="tl"><span class="team-pill sm newzealand">New Zealand</span></td><td>2</td><td>0</td><td>0</td><td>2</td><td class="neg">−5</td><td class="pts-n">0</td></tr>
-        </tbody>
-      </table>
-    </div>
-
   </div>
 
 </div>

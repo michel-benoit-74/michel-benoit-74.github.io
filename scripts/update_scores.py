@@ -185,10 +185,8 @@ def update_group_cards(html, team_stats):
         pts, gd = stats['pts'], stats['gd']
         pattern = (
             r'(<div class="group-team[^"]*">'
-            r'<span class="group-team-left">'
             r'<span class="group-name-text">' + re.escape(html_name) + r'</span>'
-            r'<span class="group-owner[^"]*">[^<]*</span>'
-            r'</span>)'
+            r'<span class="group-owner[^"]*">[^<]*</span>)'
             r'<span class="group-stat pts">[^<]*</span>'
             r'<span class="group-stat gd">[^<]*</span>'
             r'(</div>)'

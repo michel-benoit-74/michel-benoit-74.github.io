@@ -1,0 +1,26 @@
+name: WC 2026 Live Score Update
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'   # every 5 minutes, 24/7
+  workflow_dispatch:          # also allow manual trigger from GitHub UI
+
+permissions:
+  contents: write             # needed to push index.html
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Configure git
+        run: |
+          git config user.name  "WC Score Bot"
+          git config user.email "scores@wc2026.noreply.github.com"
+
+      - name: Run score updater
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/update_scores.py

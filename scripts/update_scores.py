@@ -16,9 +16,11 @@ import json, re, subprocess, os, sys
 import urllib.request
 from datetime import datetime, timezone
 
-REPO      = os.path.expanduser('~/dev/michel-benoit-74.github.io')
+# In GitHub Actions GITHUB_WORKSPACE points to the checkout; locally use the dev path
+REPO      = os.environ.get('GITHUB_WORKSPACE',
+            os.path.expanduser('~/dev/michel-benoit-74.github.io'))
 HTML_FILE = os.path.join(REPO, 'index.html')
-PAT_FILE  = os.path.expanduser('~/github_wc2026')
+PAT_FILE  = os.path.expanduser('~/github_wc2026')  # only used for local runs
 
 # ── Name mappings ──────────────────────────────────────────────────────────────
 
@@ -314,14 +316,26 @@ def git_push(message):
             print('No changes to commit.')
             return False
         subprocess.run(['git', 'commit', '-m', message], cwd=REPO, check=True)
-        pat    = open(PAT_FILE).read().strip()
-        remote = (f'https://michel-benoit-74:{pat}@github.com/'
-                  'michel-benoit-74/michel-benoit-74.github.io.git')
-        subprocess.run(['git', 'remote', 'set-url', 'origin', remote], cwd=REPO, check=True)
-        subprocess.run(['git', 'push', 'origin', 'main'],              cwd=REPO, check=True)
-        subprocess.run(['git', 'remote', 'set-url', 'origin',
-                        'git@github.com:michel-benoit-74/michel-benoit-74.github.io.git'],
-                       cwd=REPO, check=True)
+
+        # GitHub Actions supplies GITHUB_TOKEN; local runs use the PAT file
+        gh_token = os.environ.get('GITHUB_TOKEN')
+        if gh_token:
+            # Actions: use x-access-token with the built-in token
+            remote = (f'https://x-access-token:{gh_token}@github.com/'
+                      'michel-benoit-74/michel-benoit-74.github.io.git')
+            subprocess.run(['git', 'remote', 'set-url', 'origin', remote], cwd=REPO, check=True)
+            subprocess.run(['git', 'push', 'origin', 'main'], cwd=REPO, check=True)
+        else:
+            # Local: use PAT file, then restore SSH remote
+            pat    = open(PAT_FILE).read().strip()
+            remote = (f'https://michel-benoit-74:{pat}@github.com/'
+                      'michel-benoit-74/michel-benoit-74.github.io.git')
+            subprocess.run(['git', 'remote', 'set-url', 'origin', remote], cwd=REPO, check=True)
+            subprocess.run(['git', 'push', 'origin', 'main'],              cwd=REPO, check=True)
+            subprocess.run(['git', 'remote', 'set-url', 'origin',
+                            'git@github.com:michel-benoit-74/michel-benoit-74.github.io.git'],
+                           cwd=REPO, check=True)
+
         print(f'Pushed: {message}')
         return True
     except subprocess.CalledProcessError as e:

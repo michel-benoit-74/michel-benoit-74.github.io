@@ -15,6 +15,8 @@ Strategy:
 import json, re, subprocess, os, sys
 import urllib.request
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
+ET = ZoneInfo('America/New_York')  # handles EST/EDT automatically
 
 # In GitHub Actions GITHUB_WORKSPACE points to the checkout; locally use the dev path
 REPO      = os.environ.get('GITHUB_WORKSPACE',
@@ -297,7 +299,7 @@ def update_leaderboard(html, team_stats, has_live):
     html = html[:m.start()] + new_tbody + html[m.end():]
 
     # Update lb-note
-    now_str  = datetime.now(timezone.utc).strftime('%-I:%M %p UTC')
+    now_str  = datetime.now(ET).strftime('%-I:%M %p ET')
     live_tag = ' · 🔴 LIVE' if has_live else ''
     html = re.sub(
         r'<div class="lb-note">[^<]*</div>',
@@ -373,7 +375,7 @@ def main():
     with open(HTML_FILE, 'w') as f:
         f.write(html)
 
-    now_str = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
+    now_str = datetime.now(ET).strftime('%Y-%m-%d %H:%M ET')
     git_push(f'Scores [{mode}]: {now_str}')
 
 if __name__ == '__main__':

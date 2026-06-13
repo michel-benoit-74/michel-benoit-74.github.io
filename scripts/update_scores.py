@@ -346,7 +346,28 @@ def git_push(message):
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 
+def git_pull():
+    """Pull latest from remote before doing anything — prevents push conflicts
+    when both local crontab and GitHub Actions run around the same time."""
+    try:
+        gh_token = os.environ.get('GITHUB_TOKEN')
+        if gh_token:
+            remote = (f'https://x-access-token:{gh_token}@github.com/'
+                      'michel-benoit-74/michel-benoit-74.github.io.git')
+        elif os.path.exists(PAT_FILE):
+            pat = open(PAT_FILE).read().strip()
+            remote = (f'https://michel-benoit-74:{pat}@github.com/'
+                      'michel-benoit-74/michel-benoit-74.github.io.git')
+        else:
+            return  # no auth available, skip pull
+        subprocess.run(['git', 'pull', '--rebase', remote, 'main'],
+                       cwd=REPO, check=True, capture_output=True)
+    except subprocess.CalledProcessError as e:
+        print(f'git pull failed: {e}', file=sys.stderr)
+
 def main():
+    git_pull()  # always start fresh from remote
+
     # Always fetch scoreboard to check for active or recently-finished games
     events = fetch_scoreboard()
     games  = parse_scoreboard_games(events)

@@ -2,11 +2,11 @@ name: WC 2026 Live Score Update
 
 on:
   schedule:
-    - cron: '*/5 * * * *'   # every 5 minutes, 24/7
-  workflow_dispatch:          # also allow manual trigger from GitHub UI
+    - cron: '*/5 * * * *'   # GitHub best-effort backup
+  workflow_dispatch:          # manual trigger + self-trigger
 
 permissions:
-  contents: write             # needed to push index.html
+  contents: write
 
 jobs:
   update:
@@ -24,3 +24,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/update_scores.py
+
+      - name: Sleep 4m30s then trigger next run
+        env:
+          DISPATCH_PAT: ${{ secrets.DISPATCH_PAT }}
+        run: |
+          sleep 270
+          curl -s -X POST \
+            "https://api.github.com/repos/michel-benoit-74/michel-benoit-74.github.io/actions/workflows/update_scores.yml/dispatches" \
+            -H "Authorization: token $DISPATCH_PAT" \
+            -H "Content-Type: application/json" \
+            -d '{"ref":"main"}'
+          echo "Next run triggered."

@@ -200,7 +200,37 @@ def update_group_cards(html, team_stats):
                 f'<span class="group-stat gd">{gd_display(gd)}</span>'
                 r'\2')
         html = re.sub(pattern, repl, html)
-    return html
+    return sort_group_cards(html)
+
+def sort_group_cards(html):
+    """Re-order team rows within each group card by pts desc, then gd desc."""
+    def sort_teams(m):
+        header   = m.group(1)
+        rows_str = m.group(2)
+        closing  = m.group(3)
+        rows = re.findall(r'<div class="group-team[^"]*">.*?</div>', rows_str, re.DOTALL)
+
+        def row_key(div):
+            pts_m = re.search(r'<span class="group-stat pts">([^<]*)</span>', div)
+            gd_m  = re.search(r'<span class="group-stat gd">([^<]*)</span>', div)
+            try:    pts = int(pts_m.group(1)) if pts_m else 0
+            except: pts = 0
+            try:    gd  = int((gd_m.group(1) or '0').replace('+', '')) if gd_m else 0
+            except: gd  = 0
+            return (-pts, -gd)
+
+        sorted_rows = sorted(rows, key=row_key)
+        return (header
+                + '\n        '.join(sorted_rows)
+                + '\n      ' + closing)
+
+    pattern = (
+        r'(<div class="group-card-teams">\s*'
+        r'<div class="group-standings-hdr">.*?</div>\s*)'   # header
+        r'((?:<div class="group-team[^"]*">.*?</div>\s*)+)' # team rows
+        r'(</div>)'                                          # closing tag
+    )
+    return re.sub(pattern, sort_teams, html, flags=re.DOTALL)
 
 def update_stats_cards(html, team_stats):
     for html_name, stats in team_stats.items():

@@ -269,11 +269,11 @@ def update_leaderboard(html, team_stats, has_live):
         display = OWNER_DISPLAY[owner]
         gdc, gds = gd_class(t_gd), gd_display(t_gd)
         pattern = (
-            r'(<div class="stats-card-hdr"><span>' + re.escape(display) + r'</span>\s*'
+            r'(<div class="stats-card-hdr">\s*<span>' + re.escape(display) + r'</span>\s*'
             r'<div class="stats-totals">)'
             r'<span class="stats-pts">[^<]*</span>'
             r'<span class="stats-gd [^"]*">[^<]*</span>'
-            r'(</div></div>)'
+            r'(</div>\s*</div>)'
         )
         repl = (r'\1'
                 f'<span class="stats-pts">{t_pts} pts</span>'

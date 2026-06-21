@@ -5,6 +5,13 @@ on:
     - cron: '*/5 * * * *'   # GitHub best-effort backup
   workflow_dispatch:          # manual trigger + self-trigger
 
+# Only one run at a time. If a new run is queued while one is already
+# pending, cancel the pending one (keeps the chain clean and prevents
+# the runaway pile-up that happens when multiple chains run in parallel).
+concurrency:
+  group: score-updater
+  cancel-in-progress: false
+
 permissions:
   contents: write
 

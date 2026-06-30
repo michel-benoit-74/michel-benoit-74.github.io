@@ -64,6 +64,59 @@ OWNER_DISPLAY = {
     'sr': 'Scott &amp; Rob',
 }
 
+# CSS class used in <span class="team-pill sm CSS_CLASS"> for each team.
+# Used when regenerating leaderboard pills.
+TEAM_CSS = {
+    'Spain':              'spain',
+    'Japan':              'japan',
+    'Croatia':            'croatia',
+    'Algeria':            'algeria',
+    'Scotland':           'scotland',
+    'Curaçao':            'curacao',
+    'France':             'france',
+    'USA':                'usa',
+    'Uruguay':            'uruguay',
+    'Bosnia &amp; Herz.': 'bosnia',
+    'Ghana':              'ghana',
+    'Iraq':               'iraq',
+    'Argentina':          'argentina',
+    'Colombia':           'colombia',
+    'Turkey':             'turkey',
+    'Sweden':             'sweden',
+    'Iran':               'iran',
+    'Qatar':              'qatar',
+    'Portugal':           'portugal',
+    'Mexico':             'mexico',
+    'Canada':             'canada',
+    "Côte d'Ivoire":      'ivory',
+    'Tunisia':            'tunisia',
+    'Haiti':              'haiti',
+    'England':            'england',
+    'Morocco':            'morocco',
+    'South Korea':        'southkorea',
+    'Australia':          'australia',
+    'Uzbekistan':         'uzbekistan',
+    'Jordan':             'jordan',
+    'Brazil':             'brasil',
+    'Switzerland':        'switzerland',
+    'Ecuador':            'ecuador',
+    'Czechia':            'czechia',
+    'Congo DR':           'drcongo',
+    'Saudi Arabia':       'saudiarabia',
+    'Germany':            'germany',
+    'Netherlands':        'netherlands',
+    'Paraguay':           'paraguay',
+    'Egypt':              'egypt',
+    'South Africa':       'southafrica',
+    'Cabo Verde':         'caboverde',
+    'Belgium':            'belgium',
+    'Norway':             'norway',
+    'Senegal':            'senegal',
+    'Austria':            'austria',
+    'Panama':             'panama',
+    'New Zealand':        'newzealand',
+}
+
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 def fetch_json(url):
@@ -86,14 +139,20 @@ def fetch_scoreboard():
     ).get('events', [])
 
 def fetch_base_standings():
-    """Return dict html_name -> {pts, gd, gp, w, d, l} from ESPN standings API."""
+    """Return (stats_dict, eliminated_set).
+
+    stats_dict  : html_name -> {pts, gd, gp, w, d, l}
+    eliminated  : set of html_names whose group stage is complete (gp==3)
+                  and who did NOT advance (advanced==0 per ESPN).
+    """
     data = fetch_json('https://site.api.espn.com/apis/v2/sports/soccer/fifa.world/standings')
-    result = {}
+    result    = {}
+    eliminated = set()
     for group in data.get('children', []):
         for entry in group.get('standings', {}).get('entries', []):
             espn = entry.get('team', {}).get('displayName', '')
             name = ESPN_TO_HTML.get(espn, espn)
-            sv = {s['name']: int(s.get('value', 0)) for s in entry.get('stats', [])}
+            sv = {s['name']: int(s.get('value') or 0) for s in entry.get('stats', [])}
             result[name] = {
                 'pts': sv.get('points', 0),
                 'gd':  sv.get('pointDifferential', 0),
@@ -102,7 +161,9 @@ def fetch_base_standings():
                 'd':   sv.get('ties', 0),
                 'l':   sv.get('losses', 0),
             }
-    return result
+            if sv.get('gamesPlayed', 0) >= 3 and sv.get('advanced', 1) == 0:
+                eliminated.add(name)
+    return result, eliminated
 
 def parse_scoreboard_games(events):
     """
@@ -184,22 +245,36 @@ def merge_standings(base, games):
 
 # ── HTML updaters ──────────────────────────────────────────────────────────────
 
-def update_group_cards(html, team_stats):
+def update_group_cards(html, team_stats, eliminated=None):
+    if eliminated is None:
+        eliminated = set()
     for html_name, stats in team_stats.items():
-        pts, gd = stats['pts'], stats['gd']
+        pts, gd   = stats['pts'], stats['gd']
+        is_elim   = html_name in eliminated
+
+        # Capture the class attribute separately so we can add/remove 'eliminated'
         pattern = (
-            r'(<div class="group-team[^"]*">'
-            r'<span class="group-name-text">' + re.escape(html_name) + r'</span>'
+            r'<div class="(group-team[^"]*)">'
+            r'(<span class="group-name-text">' + re.escape(html_name) + r'</span>'
             r'<span class="group-owner[^"]*">[^<]*</span>)'
             r'<span class="group-stat pts">[^<]*</span>'
             r'<span class="group-stat gd">[^<]*</span>'
             r'(</div>)'
         )
-        repl = (r'\1'
-                f'<span class="group-stat pts">{pts}</span>'
-                f'<span class="group-stat gd">{gd_display(gd)}</span>'
-                r'\2')
-        html = re.sub(pattern, repl, html)
+
+        def make_repl(p, g, elim):
+            def repl(m):
+                classes = m.group(1).replace(' eliminated', '')
+                if elim:
+                    classes += ' eliminated'
+                return (f'<div class="{classes}">'
+                        f'{m.group(2)}'
+                        f'<span class="group-stat pts">{p}</span>'
+                        f'<span class="group-stat gd">{gd_display(g)}</span>'
+                        f'{m.group(3)}')
+            return repl
+
+        html = re.sub(pattern, make_repl(pts, gd, is_elim), html)
     return sort_group_cards(html)
 
 def sort_group_cards(html):
@@ -232,31 +307,35 @@ def sort_group_cards(html):
     )
     return re.sub(pattern, sort_teams, html, flags=re.DOTALL)
 
-def update_stats_cards(html, team_stats):
+def update_stats_cards(html, team_stats, eliminated=None):
     for html_name, stats in team_stats.items():
         sname = HTML_TO_STATS.get(html_name, html_name)
         gp, w, d, l = stats['gp'], stats['w'], stats['d'], stats['l']
         gd, pts = stats['gd'], stats['pts']
         gdc, gds = gd_class(gd), gd_display(gd)
+        is_elim   = html_name in (eliminated or set())
+        tr_class  = ' class="eliminated"' if is_elim else ''
 
+        # Match <tr> or <tr class="eliminated"> so toggling is idempotent
         pattern = (
-            r'(<tr><td class="tl"><span class="team-pill sm [^"]+">)'
+            r'<tr(?:\s+class="[^"]*")?>'
+            r'(<td class="tl"><span class="team-pill sm [^"]+">)'
             + re.escape(sname) +
             r'(</span></td>)<td>[^<]*</td><td>[^<]*</td><td>[^<]*</td><td>[^<]*</td>'
             r'<td class="[^"]*">[^<]*</td><td class="pts-n">[^<]*</td></tr>'
         )
         if gp == 0:
-            repl = (r'\g<1>' + sname + r'\g<2>'
+            repl = (f'<tr{tr_class}>' + r'\g<1>' + sname + r'\g<2>'
                     '<td>—</td><td>—</td><td>—</td><td>—</td>'
                     '<td class="zero">—</td><td class="pts-n">—</td></tr>')
         else:
-            repl = (r'\g<1>' + sname + r'\g<2>'
+            repl = (f'<tr{tr_class}>' + r'\g<1>' + sname + r'\g<2>'
                     f'<td>{gp}</td><td>{w}</td><td>{d}</td><td>{l}</td>'
                     f'<td class="{gdc}">{gds}</td><td class="pts-n">{pts}</td></tr>')
         html = re.sub(pattern, repl, html)
     return html
 
-def update_leaderboard(html, team_stats, has_live):
+def update_leaderboard(html, team_stats, has_live, eliminated=None):
     # Compute owner totals
     owner_totals = {}
     for owner, teams in OWNER_TEAMS.items():
@@ -308,7 +387,16 @@ def update_leaderboard(html, team_stats, has_live):
         name_td  = re.search(r'<td class="lb-name">[^<]*</td>', row).group(0)
         pts_td   = re.search(r'<td class="lb-pts">[^<]*</td>', row).group(0)
         gd_td    = re.search(r'<td class="lb-gd [^"]*">[^<]*</td>', row).group(0)
-        pills_td = re.search(r'<td class="lb-pills">.*?</td>', row, re.DOTALL).group(0)
+        # Regenerate pills from scratch (ensures text and eliminated class are always correct)
+        pill_spans = []
+        for team in OWNER_TEAMS[owner]:
+            sname    = HTML_TO_STATS.get(team, team)
+            css      = TEAM_CSS.get(team, team.lower().replace(' ', '').replace("'", ''))
+            elim_cls = ' eliminated' if team in (eliminated or set()) else ''
+            pill_spans.append(f'<span class="team-pill sm {css}{elim_cls}">{sname}</span>')
+        pills_td = ('<td class="lb-pills">\n'
+                    + ''.join(f'          {p}\n' for p in pill_spans)
+                    + '        </td>')
         row = (f'      <tr class="lb-row">\n'
                f'        {rank_td}\n'
                f'        {name_td}\n'
@@ -398,30 +486,34 @@ def git_pull():
 def main():
     git_pull()  # always start fresh from remote
 
-    # Always fetch scoreboard to check for active or recently-finished games
+    # Fetch live games and standings in parallel (sequential here, still fast)
     events = fetch_scoreboard()
     games  = parse_scoreboard_games(events)
 
-    if not games:
-        print('No active or recently finished WC matches. Exiting.')
-        return
+    base_standings, eliminated = fetch_base_standings()
+    if eliminated:
+        print(f'Eliminated teams ({len(eliminated)}): {", ".join(sorted(eliminated))}')
 
     has_live = any(g['state'] == 'in' for g in games)
-    mode     = 'LIVE' if has_live else 'post-match'
-    summaries = ', '.join(
-        '{} {}-{} {} ({})'.format(g['team1'], g['score1'], g['score2'], g['team2'], g['state'])
-        for g in games)
-    print(f'[{mode}] {len(games)} game(s) to process: {summaries}')
 
-    base_standings = fetch_base_standings()
-    team_stats     = merge_standings(base_standings, games)
+    if games:
+        mode = 'LIVE' if has_live else 'post-match'
+        summaries = ', '.join(
+            '{} {}-{} {} ({})'.format(g['team1'], g['score1'], g['score2'], g['team2'], g['state'])
+            for g in games)
+        print(f'[{mode}] {len(games)} game(s): {summaries}')
+        team_stats = merge_standings(base_standings, games)
+    else:
+        mode       = 'standings'
+        team_stats = base_standings
+        print('No active games — updating standings/eliminated only.')
 
     with open(HTML_FILE) as f:
         html = f.read()
 
-    html = update_group_cards(html, team_stats)
-    html = update_stats_cards(html, team_stats)
-    html = update_leaderboard(html, team_stats, has_live)
+    html = update_group_cards(html, team_stats, eliminated)
+    html = update_stats_cards(html, team_stats, eliminated)
+    html = update_leaderboard(html, team_stats, has_live, eliminated)
 
     with open(HTML_FILE, 'w') as f:
         f.write(html)

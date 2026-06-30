@@ -158,6 +158,24 @@ BRACKET_MATCHES = {
     'final':  {'round': 'Final', 'date': 'Jul 19', 'src1': 'sf-1',   'src2': 'sf-2'},
 }
 
+# Path colour class for each match — left-border stripe colour shows which
+# QF quadrant a match feeds into so readers can trace the full path.
+#   a = QF-1 quadrant (blue)   b = QF-2 quadrant (red)
+#   c = QF-3 quadrant (green)  d = QF-4 quadrant (orange)
+#   sf1 / sf2 = semi-final halves   final = championship
+MATCH_PATH = {
+    'r32-1':'a',  'r32-4':'a',  'r32-3':'a',  'r32-5':'a',
+    'r16-1':'a',  'r16-2':'a',  'qf-1':'a',
+    'r32-11':'b', 'r32-12':'b', 'r32-9':'b',  'r32-10':'b',
+    'r16-5':'b',  'r16-6':'b',  'qf-2':'b',
+    'r32-2':'c',  'r32-6':'c',  'r32-7':'c',  'r32-8':'c',
+    'r16-3':'c',  'r16-4':'c',  'qf-3':'c',
+    'r32-13':'d', 'r32-15':'d', 'r32-14':'d', 'r32-16':'d',
+    'r16-8':'d',  'r16-7':'d',  'qf-4':'d',
+    'sf-1':'sf1', 'sf-2':'sf2',
+    '3rd':'sf2',  'final':'final',
+}
+
 BRACKET_ROUNDS = [
     ('Round of 32',           ['r32-1','r32-2','r32-3','r32-4','r32-5','r32-6','r32-7','r32-8',
                                'r32-9','r32-10','r32-11','r32-12','r32-13','r32-14','r32-15','r32-16']),
@@ -438,11 +456,12 @@ def render_bracket_html(bstate):
                           .replace('&amp;','').replace(';',''))
         return f'<span class="team-pill sm {css}">{sn}</span>'
 
-    def render_match(ms):
+    def render_match(key, ms):
         t1, t2   = ms['team1'], ms['team2']
         s1, s2   = ms['score1'], ms['score2']
         winner   = ms['winner']
         mstate   = ms['state']
+        path_cls = f' bk-path-{MATCH_PATH.get(key, "")}'
 
         def row(team, score, is_winner, is_loser):
             cls = 'bk-team' + (' loser' if is_loser else ' winner' if is_winner else '')
@@ -460,16 +479,24 @@ def render_bracket_html(bstate):
                    if mstate == 'live'
                    else f'<div class="bk-date">{ms["date"]}</div>')
 
-        return (f'<div class="bk-match {mstate}">\n'
+        return (f'<div class="bk-match {mstate}{path_cls}">\n'
                 f'          {row(t1, s1, t1_win, t1_lose)}\n'
                 f'          {sep}\n'
                 f'          {row(t2, s2, t2_win, t2_lose)}{pen_ln}\n'
                 f'          {date_ln}\n'
                 f'        </div>')
 
-    parts = []
+    legend = (
+        '    <div class="bk-legend">\n'
+        '      <span class="bk-legend-item"><span class="bk-legend-swatch a"></span>QF·1 path</span>\n'
+        '      <span class="bk-legend-item"><span class="bk-legend-swatch b"></span>QF·2 path</span>\n'
+        '      <span class="bk-legend-item"><span class="bk-legend-swatch c"></span>QF·3 path</span>\n'
+        '      <span class="bk-legend-item"><span class="bk-legend-swatch d"></span>QF·4 path</span>\n'
+        '    </div>'
+    )
+    parts = [legend]
     for round_label, keys in BRACKET_ROUNDS:
-        matches = '\n        '.join(render_match(bstate[k]) for k in keys)
+        matches = '\n        '.join(render_match(k, bstate[k]) for k in keys)
         parts.append(
             f'    <div class="bracket-round">\n'
             f'      <div class="bracket-round-label">{round_label}</div>\n'

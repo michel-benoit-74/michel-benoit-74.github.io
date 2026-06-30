@@ -120,6 +120,53 @@ TEAM_CSS = {
     'New Zealand':        'newzealand',
 }
 
+# ── Knockout bracket definition ───────────────────────────────────────────────
+# R32 entries have fixed 'team1'/'team2'.  Later rounds use 'src1'/'src2' to
+# reference the match key whose winner fills that slot.  '3rd' uses losers.
+BRACKET_MATCHES = {
+    'r32-1':  {'round': 'R32',   'date': 'Jun 28', 'team1': 'South Africa',    'team2': 'Canada'},
+    'r32-2':  {'round': 'R32',   'date': 'Jun 29', 'team1': 'Japan',            'team2': 'Brazil'},
+    'r32-3':  {'round': 'R32',   'date': 'Jun 29', 'team1': 'Germany',          'team2': 'Paraguay'},
+    'r32-4':  {'round': 'R32',   'date': 'Jun 30', 'team1': 'Netherlands',      'team2': 'Morocco'},
+    'r32-5':  {'round': 'R32',   'date': 'Jun 30', 'team1': "Côte d'Ivoire",   'team2': 'Norway'},
+    'r32-6':  {'round': 'R32',   'date': 'Jun 30', 'team1': 'France',           'team2': 'Sweden'},
+    'r32-7':  {'round': 'R32',   'date': 'Jul 1',  'team1': 'Mexico',           'team2': 'Ecuador'},
+    'r32-8':  {'round': 'R32',   'date': 'Jul 1',  'team1': 'England',          'team2': 'Congo DR'},
+    'r32-9':  {'round': 'R32',   'date': 'Jul 1',  'team1': 'Belgium',          'team2': 'Senegal'},
+    'r32-10': {'round': 'R32',   'date': 'Jul 2',  'team1': 'USA',              'team2': 'Bosnia &amp; Herz.'},
+    'r32-11': {'round': 'R32',   'date': 'Jul 2',  'team1': 'Spain',            'team2': 'Austria'},
+    'r32-12': {'round': 'R32',   'date': 'Jul 2',  'team1': 'Portugal',         'team2': 'Croatia'},
+    'r32-13': {'round': 'R32',   'date': 'Jul 3',  'team1': 'Switzerland',      'team2': 'Algeria'},
+    'r32-14': {'round': 'R32',   'date': 'Jul 3',  'team1': 'Australia',        'team2': 'Egypt'},
+    'r32-15': {'round': 'R32',   'date': 'Jul 3',  'team1': 'Argentina',        'team2': 'Cabo Verde'},
+    'r32-16': {'round': 'R32',   'date': 'Jul 4',  'team1': 'Colombia',         'team2': 'Ghana'},
+    'r16-1':  {'round': 'R16',   'date': 'Jul 4',  'src1': 'r32-1',  'src2': 'r32-4'},
+    'r16-2':  {'round': 'R16',   'date': 'Jul 4',  'src1': 'r32-3',  'src2': 'r32-5'},
+    'r16-3':  {'round': 'R16',   'date': 'Jul 5',  'src1': 'r32-2',  'src2': 'r32-6'},
+    'r16-4':  {'round': 'R16',   'date': 'Jul 6',  'src1': 'r32-7',  'src2': 'r32-8'},
+    'r16-5':  {'round': 'R16',   'date': 'Jul 6',  'src1': 'r32-11', 'src2': 'r32-12'},
+    'r16-6':  {'round': 'R16',   'date': 'Jul 7',  'src1': 'r32-9',  'src2': 'r32-10'},
+    'r16-7':  {'round': 'R16',   'date': 'Jul 7',  'src1': 'r32-14', 'src2': 'r32-16'},
+    'r16-8':  {'round': 'R16',   'date': 'Jul 7',  'src1': 'r32-13', 'src2': 'r32-15'},
+    'qf-1':   {'round': 'QF',    'date': 'Jul 9',  'src1': 'r16-1',  'src2': 'r16-2'},
+    'qf-2':   {'round': 'QF',    'date': 'Jul 10', 'src1': 'r16-5',  'src2': 'r16-6'},
+    'qf-3':   {'round': 'QF',    'date': 'Jul 11', 'src1': 'r16-3',  'src2': 'r16-4'},
+    'qf-4':   {'round': 'QF',    'date': 'Jul 12', 'src1': 'r16-7',  'src2': 'r16-8'},
+    'sf-1':   {'round': 'SF',    'date': 'Jul 14', 'src1': 'qf-1',   'src2': 'qf-2'},
+    'sf-2':   {'round': 'SF',    'date': 'Jul 15', 'src1': 'qf-3',   'src2': 'qf-4'},
+    '3rd':    {'round': '3rd',   'date': 'Jul 18', 'src1': 'sf-1-l', 'src2': 'sf-2-l'},
+    'final':  {'round': 'Final', 'date': 'Jul 19', 'src1': 'sf-1',   'src2': 'sf-2'},
+}
+
+BRACKET_ROUNDS = [
+    ('Round of 32',           ['r32-1','r32-2','r32-3','r32-4','r32-5','r32-6','r32-7','r32-8',
+                               'r32-9','r32-10','r32-11','r32-12','r32-13','r32-14','r32-15','r32-16']),
+    ('Round of 16',           ['r16-1','r16-2','r16-3','r16-4','r16-5','r16-6','r16-7','r16-8']),
+    ('Quarterfinals',         ['qf-1','qf-2','qf-3','qf-4']),
+    ('Semifinals',            ['sf-1','sf-2']),
+    ('3rd Place &amp; Final', ['3rd','final']),
+]
+
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 def fetch_json(url):
@@ -306,6 +353,145 @@ def merge_standings(base, games):
             else:              stats[team]['l'] += 1
 
     return stats
+
+# ── Bracket builder & renderer ────────────────────────────────────────────────
+
+def build_bracket(all_games):
+    """Resolve full bracket state from completed/live game results.
+
+    Returns dict  {match_key: state_dict}  where each state_dict has:
+        team1, team2  – HTML name or None (TBD)
+        score1, score2 – int or None
+        winner, loser  – HTML name or None
+        pen            – True if decided on penalties
+        state          – 'upcoming' | 'live' | 'completed'
+        date           – display string, e.g. 'Jul 4'
+    """
+    game_lookup = {}
+    for g in all_games:
+        game_lookup[frozenset([g['team1'], g['team2']])] = g
+
+    bstate = {}
+    order  = (['r32-' + str(i) for i in range(1, 17)] +
+              ['r16-' + str(i) for i in range(1, 9)] +
+              ['qf-1','qf-2','qf-3','qf-4','sf-1','sf-2','3rd','final'])
+
+    for key in order:
+        m = BRACKET_MATCHES[key]
+
+        # Resolve teams ────────────────────────────────────────────────────────
+        if 'team1' in m:
+            t1, t2 = m['team1'], m['team2']
+        elif key == '3rd':
+            t1 = bstate.get('sf-1', {}).get('loser')
+            t2 = bstate.get('sf-2', {}).get('loser')
+        else:
+            t1 = bstate.get(m['src1'], {}).get('winner')
+            t2 = bstate.get(m['src2'], {}).get('winner')
+
+        ms = {'team1': t1, 'team2': t2, 'date': m['date'],
+              'score1': None, 'score2': None,
+              'winner': None, 'loser': None,
+              'pen': False, 'state': 'upcoming'}
+
+        # Look up result ───────────────────────────────────────────────────────
+        if t1 and t2:
+            gkey = frozenset([t1, t2])
+            if gkey in game_lookup:
+                g = game_lookup[gkey]
+                if g['team1'] == t1:
+                    s1, s2 = g['score1'], g['score2']
+                    w1, w2 = g.get('winner1'), g.get('winner2')
+                else:
+                    s1, s2 = g['score2'], g['score1']
+                    w1, w2 = g.get('winner2'), g.get('winner1')
+                ms['score1'], ms['score2'] = s1, s2
+                if g['state'] == 'post':
+                    ms['state'] = 'completed'
+                    # pen = tied score + winner flag (penalty shootout)
+                    # Regular wins also set winner=True in ESPN data — NOT a pen
+                    ms['pen'] = (s1 == s2 and (w1 is True or w2 is True))
+                    if w1 is True:
+                        ms['winner'], ms['loser'] = t1, t2
+                    elif w2 is True:
+                        ms['winner'], ms['loser'] = t2, t1
+                    elif s1 > s2:
+                        ms['winner'], ms['loser'] = t1, t2
+                    elif s2 > s1:
+                        ms['winner'], ms['loser'] = t2, t1
+                elif g['state'] == 'in':
+                    ms['state'] = 'live'
+
+        bstate[key] = ms
+    return bstate
+
+
+def render_bracket_html(bstate):
+    """Generate the full bracket section HTML."""
+
+    def pill(team):
+        if not team:
+            return '<span class="team-pill sm tbd">TBD</span>'
+        sn  = HTML_TO_STATS.get(team, team)
+        css = TEAM_CSS.get(team,
+              team.lower().replace(' ','').replace("'",'')
+                          .replace('&amp;','').replace(';',''))
+        return f'<span class="team-pill sm {css}">{sn}</span>'
+
+    def render_match(ms):
+        t1, t2   = ms['team1'], ms['team2']
+        s1, s2   = ms['score1'], ms['score2']
+        winner   = ms['winner']
+        mstate   = ms['state']
+
+        def row(team, score, is_winner, is_loser):
+            cls = 'bk-team' + (' loser' if is_loser else ' winner' if is_winner else '')
+            sc  = f'<span class="bk-score">{score}</span>' if score is not None else ''
+            return f'<div class="{cls}">{pill(team)}{sc}</div>'
+
+        t1_win  = (winner == t1 and t1 is not None)
+        t1_lose = (winner is not None and winner != t1)
+        t2_win  = (winner == t2 and t2 is not None)
+        t2_lose = (winner is not None and winner != t2)
+        sep     = ('<div class="bk-sep">&ndash;</div>'
+                   if s1 is not None else '<div class="bk-sep">vs</div>')
+        pen_ln  = '\n          <div class="bk-pen">pens</div>' if ms['pen'] else ''
+        date_ln = ('<div class="bk-date live-badge">LIVE</div>'
+                   if mstate == 'live'
+                   else f'<div class="bk-date">{ms["date"]}</div>')
+
+        return (f'<div class="bk-match {mstate}">\n'
+                f'          {row(t1, s1, t1_win, t1_lose)}\n'
+                f'          {sep}\n'
+                f'          {row(t2, s2, t2_win, t2_lose)}{pen_ln}\n'
+                f'          {date_ln}\n'
+                f'        </div>')
+
+    parts = []
+    for round_label, keys in BRACKET_ROUNDS:
+        matches = '\n        '.join(render_match(bstate[k]) for k in keys)
+        parts.append(
+            f'    <div class="bracket-round">\n'
+            f'      <div class="bracket-round-label">{round_label}</div>\n'
+            f'      <div class="bk-grid">\n'
+            f'        {matches}\n'
+            f'      </div>\n'
+            f'    </div>'
+        )
+    return '\n'.join(parts)
+
+
+def update_bracket(html, all_games):
+    """Replace content between <!-- BRACKET:START/END --> markers."""
+    bstate  = build_bracket(all_games)
+    content = render_bracket_html(bstate)
+    pattern = r'<!-- BRACKET:START -->.*?<!-- BRACKET:END -->'
+    repl    = f'<!-- BRACKET:START -->\n{content}\n  <!-- BRACKET:END -->'
+    if not re.search(pattern, html, flags=re.DOTALL):
+        print('[update_bracket] markers not found — bracket skipped', file=sys.stderr)
+        return html
+    return re.sub(pattern, repl, html, flags=re.DOTALL)
+
 
 # ── HTML updaters ──────────────────────────────────────────────────────────────
 
@@ -595,6 +781,7 @@ def main():
     with open(HTML_FILE) as f:
         html = f.read()
 
+    html = update_bracket(html, all_games)
     html = update_group_cards(html, team_stats, eliminated)
     html = update_stats_cards(html, team_stats, eliminated)
     html = update_leaderboard(html, team_stats, has_live, eliminated)

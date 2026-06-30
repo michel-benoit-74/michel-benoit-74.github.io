@@ -202,6 +202,9 @@ def parse_scoreboard_games(events):
         comps = comp.get('competitors', [])
         if len(comps) < 2:
             continue
+        # For STATUS_FINAL_PEN games ESPN's 'score' is the score at end of
+        # extra time — penalty shootout goals are NOT included.  This means
+        # GD is automatically based on regulation+ET goals only. ✓
         teams, scores, winners = [], [], []
         for c in sorted(comps, key=lambda x: x.get('order', 0)):
             espn = c['team']['displayName']
@@ -231,6 +234,26 @@ def game_pts_gd(score1, score2, winner1=None, winner2=None):
     else:
         pts1, pts2 = 1, 1          # genuine draw (group stage)
     return pts1, gd1, pts2, gd2
+
+def get_knockout_eliminated(all_games, base):
+    """Return set of teams that lost a completed knockout-stage game.
+    A game is knockout if both teams had base_gp >= 3 (i.e. both cleared the group stage).
+    The loser of each such game is eliminated.
+    """
+    ko_eliminated = set()
+    for g in all_games:
+        if g['state'] != 'post':
+            continue
+        if base.get(g['team1'], {}).get('gp', 0) < 3 or \
+           base.get(g['team2'], {}).get('gp', 0) < 3:
+            continue  # group-stage game — skip
+        s1, s2 = g['score1'], g['score2']
+        w1, w2 = g.get('winner1'), g.get('winner2')
+        if s1 > s2 or w1 is True:
+            ko_eliminated.add(g['team2'])   # team2 lost
+        elif s2 > s1 or w2 is True:
+            ko_eliminated.add(g['team1'])   # team1 lost
+    return ko_eliminated
 
 def merge_standings(base, games):
     """
@@ -527,9 +550,7 @@ def git_pull():
 def main():
     git_pull()  # always start fresh from remote
 
-    base_standings, eliminated = fetch_base_standings()
-    if eliminated:
-        print(f'Eliminated ({len(eliminated)}): {", ".join(sorted(eliminated))}')
+    base_standings, grp_eliminated = fetch_base_standings()
 
     # Knockout history: all completed games from Round of 32 start through yesterday
     knockout_history = fetch_knockout_history()
@@ -540,11 +561,19 @@ def main():
                   f'  (w1={g["winner1"]} w2={g["winner2"]})')
 
     # Today's live/finished games
-    events     = fetch_scoreboard()
+    events      = fetch_scoreboard()
     today_games = parse_scoreboard_games(events)
     has_live    = any(g['state'] == 'in' for g in today_games)
 
     all_games = knockout_history + today_games
+
+    # Combine group-stage and knockout eliminated sets
+    ko_eliminated = get_knockout_eliminated(all_games, base_standings)
+    eliminated    = grp_eliminated | ko_eliminated
+    if grp_eliminated:
+        print(f'Group-stage eliminated ({len(grp_eliminated)}): {", ".join(sorted(grp_eliminated))}')
+    if ko_eliminated:
+        print(f'Knockout eliminated ({len(ko_eliminated)}): {", ".join(sorted(ko_eliminated))}')
 
     if has_live:
         mode = 'LIVE'

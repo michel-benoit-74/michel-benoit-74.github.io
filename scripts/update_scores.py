@@ -141,8 +141,8 @@ BRACKET_MATCHES = {
     'r32-15': {'round': 'R32',   'date': 'Jul 3',  'team1': 'Argentina',        'team2': 'Cabo Verde'},
     'r32-16': {'round': 'R32',   'date': 'Jul 4',  'team1': 'Colombia',         'team2': 'Ghana'},
     'r16-1':  {'round': 'R16',   'date': 'Jul 4',  'src1': 'r32-1',  'src2': 'r32-4'},
-    'r16-2':  {'round': 'R16',   'date': 'Jul 4',  'src1': 'r32-3',  'src2': 'r32-5'},
-    'r16-3':  {'round': 'R16',   'date': 'Jul 5',  'src1': 'r32-2',  'src2': 'r32-6'},
+    'r16-2':  {'round': 'R16',   'date': 'Jul 4',  'src1': 'r32-3',  'src2': 'r32-6'},
+    'r16-3':  {'round': 'R16',   'date': 'Jul 5',  'src1': 'r32-2',  'src2': 'r32-5'},
     'r16-4':  {'round': 'R16',   'date': 'Jul 6',  'src1': 'r32-7',  'src2': 'r32-8'},
     'r16-5':  {'round': 'R16',   'date': 'Jul 6',  'src1': 'r32-11', 'src2': 'r32-12'},
     'r16-6':  {'round': 'R16',   'date': 'Jul 7',  'src1': 'r32-9',  'src2': 'r32-10'},
@@ -164,11 +164,11 @@ BRACKET_MATCHES = {
 #   c = QF-3 quadrant (green)  d = QF-4 quadrant (orange)
 #   sf1 / sf2 = semi-final halves   final = championship
 MATCH_PATH = {
-    'r32-1':'a',  'r32-4':'a',  'r32-3':'a',  'r32-5':'a',
+    'r32-1':'a',  'r32-4':'a',  'r32-3':'a',  'r32-6':'a',
     'r16-1':'a',  'r16-2':'a',  'qf-1':'a',
     'r32-11':'b', 'r32-12':'b', 'r32-9':'b',  'r32-10':'b',
     'r16-5':'b',  'r16-6':'b',  'qf-2':'b',
-    'r32-2':'c',  'r32-6':'c',  'r32-7':'c',  'r32-8':'c',
+    'r32-2':'c',  'r32-5':'c',  'r32-7':'c',  'r32-8':'c',
     'r16-3':'c',  'r16-4':'c',  'qf-3':'c',
     'r32-13':'d', 'r32-15':'d', 'r32-14':'d', 'r32-16':'d',
     'r16-8':'d',  'r16-7':'d',  'qf-4':'d',
@@ -181,9 +181,9 @@ MATCH_PATH = {
 # always stay visually adjacent, no matter the viewport width.
 BRACKET_ROUNDS = [
     ('Round of 32', [
-        ['r32-1', 'r32-4', 'r32-3', 'r32-5'],     # QF·1 path (a) — r16-1, r16-2
+        ['r32-1', 'r32-4', 'r32-3', 'r32-6'],     # QF·1 path (a) — r16-1, r16-2
         ['r32-9', 'r32-10', 'r32-11', 'r32-12'],   # QF·2 path (b) — r16-6, r16-5
-        ['r32-2', 'r32-6', 'r32-7', 'r32-8'],      # QF·3 path (c) — r16-3, r16-4
+        ['r32-2', 'r32-5', 'r32-7', 'r32-8'],      # QF·3 path (c) — r16-3, r16-4
         ['r32-13', 'r32-15', 'r32-14', 'r32-16'],  # QF·4 path (d) — r16-8, r16-7
     ]),
     ('Round of 16', [

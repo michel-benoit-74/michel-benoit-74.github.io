@@ -176,13 +176,25 @@ MATCH_PATH = {
     '3rd':'sf2',  'final':'final',
 }
 
+# Each round is a list of path-groups (inner lists).  Cards in the same group
+# share a background colour and are rendered in their own sub-grid so they
+# always stay visually adjacent, no matter the viewport width.
 BRACKET_ROUNDS = [
-    ('Round of 32',           ['r32-1','r32-2','r32-3','r32-4','r32-5','r32-6','r32-7','r32-8',
-                               'r32-9','r32-10','r32-11','r32-12','r32-13','r32-14','r32-15','r32-16']),
-    ('Round of 16',           ['r16-1','r16-2','r16-3','r16-4','r16-5','r16-6','r16-7','r16-8']),
-    ('Quarterfinals',         ['qf-1','qf-2','qf-3','qf-4']),
-    ('Semifinals',            ['sf-1','sf-2']),
-    ('3rd Place &amp; Final', ['3rd','final']),
+    ('Round of 32', [
+        ['r32-1', 'r32-4', 'r32-3', 'r32-5'],     # QF·1 path (a) — r16-1, r16-2
+        ['r32-9', 'r32-10', 'r32-11', 'r32-12'],   # QF·2 path (b) — r16-6, r16-5
+        ['r32-2', 'r32-6', 'r32-7', 'r32-8'],      # QF·3 path (c) — r16-3, r16-4
+        ['r32-13', 'r32-15', 'r32-14', 'r32-16'],  # QF·4 path (d) — r16-8, r16-7
+    ]),
+    ('Round of 16', [
+        ['r16-1', 'r16-2'],   # QF·1 path (a)
+        ['r16-5', 'r16-6'],   # QF·2 path (b)
+        ['r16-3', 'r16-4'],   # QF·3 path (c)
+        ['r16-7', 'r16-8'],   # QF·4 path (d)
+    ]),
+    ('Quarterfinals',         [['qf-1', 'qf-2', 'qf-3', 'qf-4']]),
+    ('Semifinals',            [['sf-1', 'sf-2']]),
+    ('3rd Place &amp; Final', [['3rd', 'final']]),
 ]
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
@@ -488,21 +500,22 @@ def render_bracket_html(bstate):
 
     legend = (
         '    <div class="bk-legend">\n'
-        '      <span class="bk-legend-item"><span class="bk-legend-swatch a"></span>QF·1 path</span>\n'
-        '      <span class="bk-legend-item"><span class="bk-legend-swatch b"></span>QF·2 path</span>\n'
-        '      <span class="bk-legend-item"><span class="bk-legend-swatch c"></span>QF·3 path</span>\n'
-        '      <span class="bk-legend-item"><span class="bk-legend-swatch d"></span>QF·4 path</span>\n'
+        '      <span class="bk-legend-item a">QF·1 path</span>\n'
+        '      <span class="bk-legend-item b">QF·2 path</span>\n'
+        '      <span class="bk-legend-item c">QF·3 path</span>\n'
+        '      <span class="bk-legend-item d">QF·4 path</span>\n'
         '    </div>'
     )
     parts = [legend]
-    for round_label, keys in BRACKET_ROUNDS:
-        matches = '\n        '.join(render_match(k, bstate[k]) for k in keys)
+    for round_label, path_groups in BRACKET_ROUNDS:
+        grids = []
+        for group in path_groups:
+            matches = '\n        '.join(render_match(k, bstate[k]) for k in group)
+            grids.append(f'      <div class="bk-grid">\n        {matches}\n      </div>')
         parts.append(
             f'    <div class="bracket-round">\n'
             f'      <div class="bracket-round-label">{round_label}</div>\n'
-            f'      <div class="bk-grid">\n'
-            f'        {matches}\n'
-            f'      </div>\n'
+            + '\n'.join(grids) + '\n'
             f'    </div>'
         )
     return '\n'.join(parts)

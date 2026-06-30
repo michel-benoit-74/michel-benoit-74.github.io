@@ -3,20 +3,23 @@
 WC 2026 live score updater.
 
 Strategy:
-  1. ESPN v2 standings  → authoritative base for all fully-recorded games
-  2. ESPN scoreboard    → today's live (state='in') and finished (state='post') scores
-  3. For each scoreboard game:
-       state='in'   → always add provisional pts/gd (standings never include live games)
-       state='post' → add adjustment only if standings.gamesPlayed < games in scoreboard
-                      (i.e. standings haven't caught up yet)
-  4. Merge → update group cards, stats cards, leaderboard → commit & push if changed
+  1. ESPN v2 standings  → authoritative base for group-stage stats (gp ≤ 3)
+  2. ESPN scoreboard (date queries) → all completed knockout-stage games
+  3. ESPN scoreboard (today) → live/just-finished games
+  4. Merge all into team_stats; update group cards, stats cards, leaderboard → push if changed
+
+Penalty shootouts: ESPN marks the 90+ET-minute score (tied) plus winner=True on the
+winner. game_pts_gd() uses the winner flag to award 3/0 pts instead of 1/1.
 """
 
 import json, re, subprocess, os, sys
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date, timedelta
 from zoneinfo import ZoneInfo
 ET = ZoneInfo('America/New_York')  # handles EST/EDT automatically
+
+# First day of WC 2026 knockout stage (Round of 32)
+KNOCKOUT_START = date(2026, 6, 28)
 
 # In GitHub Actions GITHUB_WORKSPACE points to the checkout; locally use the dev path
 REPO      = os.environ.get('GITHUB_WORKSPACE',
@@ -138,6 +141,25 @@ def fetch_scoreboard():
         'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard'
     ).get('events', [])
 
+def fetch_knockout_history():
+    """Return all COMPLETED (post) knockout-stage games from KNOCKOUT_START through yesterday.
+    Today's games are handled separately by fetch_scoreboard() to allow live tracking."""
+    games   = []
+    today   = datetime.now(ET).date()
+    d       = KNOCKOUT_START
+    while d < today:
+        ds = d.strftime('%Y%m%d')
+        try:
+            events    = fetch_json(
+                f'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates={ds}'
+            ).get('events', [])
+            day_games = [g for g in parse_scoreboard_games(events) if g['state'] == 'post']
+            games.extend(day_games)
+        except Exception as e:
+            print(f'fetch_knockout_history: error for {ds}: {e}', file=sys.stderr)
+        d += timedelta(days=1)
+    return games
+
 def fetch_base_standings():
     """Return (stats_dict, eliminated_set).
 
@@ -167,8 +189,9 @@ def fetch_base_standings():
 
 def parse_scoreboard_games(events):
     """
-    Return list of dicts: {state, team1, team2, score1, score2}
-    Only 'in' and 'post' games.
+    Return list of dicts: {state, team1, score1, winner1, team2, score2, winner2}
+    Only 'in' and 'post' games.  winner1/winner2 are True/False/None.
+    For penalty shootouts ESPN keeps tied scores but marks the actual winner.
     """
     games = []
     for event in events:
@@ -179,65 +202,83 @@ def parse_scoreboard_games(events):
         comps = comp.get('competitors', [])
         if len(comps) < 2:
             continue
-        teams, scores = [], []
+        teams, scores, winners = [], [], []
         for c in sorted(comps, key=lambda x: x.get('order', 0)):
             espn = c['team']['displayName']
             teams.append(ESPN_TO_HTML.get(espn, espn))
             scores.append(int(c.get('score', 0) or 0))
+            winners.append(c.get('winner'))   # True / False / None
         if len(teams) == 2:
-            games.append({'state': state,
-                          'team1': teams[0], 'score1': scores[0],
-                          'team2': teams[1], 'score2': scores[1]})
+            games.append({'state':   state,
+                          'team1':   teams[0],  'score1':  scores[0], 'winner1': winners[0],
+                          'team2':   teams[1],  'score2':  scores[1], 'winner2': winners[1]})
     return games
 
-def game_pts_gd(score1, score2):
-    """Return (pts1, gd1, pts2, gd2) treating current score as result."""
+def game_pts_gd(score1, score2, winner1=None, winner2=None):
+    """Return (pts1, gd1, pts2, gd2) treating current score as result.
+    winner1/winner2 resolve ties caused by extra time + penalty shootouts.
+    """
     gd1 = score1 - score2
     gd2 = score2 - score1
     if score1 > score2:
         pts1, pts2 = 3, 0
     elif score2 > score1:
         pts1, pts2 = 0, 3
+    elif winner1 is True:          # tied after ET, team1 won on pens
+        pts1, pts2 = 3, 0
+    elif winner2 is True:          # tied after ET, team2 won on pens
+        pts1, pts2 = 0, 3
     else:
-        pts1, pts2 = 1, 1
+        pts1, pts2 = 1, 1          # genuine draw (group stage)
     return pts1, gd1, pts2, gd2
 
 def merge_standings(base, games):
     """
     Apply scoreboard game adjustments on top of base standings.
-    - 'in'   games: always applied as provisional
-    - 'post' games: only applied if standings haven't caught up (gamesPlayed mismatch)
+
+    Group-stage post games: skip if base standings already counted them
+      (detected by base_gp >= scoreboard games for that team in group stage).
+    Knockout post games: ALWAYS apply — ESPN standings only covers group stage,
+      so any game where both teams have base_gp >= 3 is a new knockout game.
+    Live (in) games: always applied provisionally.
     """
     import copy
     stats = copy.deepcopy(base)
 
-    # Count completed+live games per team from scoreboard
-    scoreboard_gp = {}    # team -> count of post+in games today
-    for g in games:
-        scoreboard_gp[g['team1']] = scoreboard_gp.get(g['team1'], 0) + 1
-        scoreboard_gp[g['team2']] = scoreboard_gp.get(g['team2'], 0) + 1
+    # Separate group-stage vs knockout games for dedup logic
+    group_games    = [g for g in games if
+                      base.get(g['team1'], {}).get('gp', 0) < 3
+                      or base.get(g['team2'], {}).get('gp', 0) < 3]
+    knockout_games = [g for g in games if
+                      base.get(g['team1'], {}).get('gp', 0) >= 3
+                      and base.get(g['team2'], {}).get('gp', 0) >= 3]
 
-    for g in games:
+    # For group-stage dedup: count scoreboard games per team
+    group_scoreboard_gp = {}
+    for g in group_games:
+        group_scoreboard_gp[g['team1']] = group_scoreboard_gp.get(g['team1'], 0) + 1
+        group_scoreboard_gp[g['team2']] = group_scoreboard_gp.get(g['team2'], 0) + 1
+
+    for g in group_games + knockout_games:
         t1, t2 = g['team1'], g['team2']
         s1, s2 = g['score1'], g['score2']
-        pts1, gd1, pts2, gd2 = game_pts_gd(s1, s2)
+        w1, w2 = g.get('winner1'), g.get('winner2')
+        pts1, gd1, pts2, gd2 = game_pts_gd(s1, s2, w1, w2)
+        is_knockout = g in knockout_games
 
-        for team, pts_adj, gd_adj, s_for, s_against in [
-            (t1, pts1, gd1, s1, s2),
-            (t2, pts2, gd2, s2, s1),
-        ]:
+        for team, pts_adj, gd_adj in [(t1, pts1, gd1), (t2, pts2, gd2)]:
             if team not in stats:
                 stats[team] = {'pts': 0, 'gd': 0, 'gp': 0, 'w': 0, 'd': 0, 'l': 0}
 
-            current_gp = stats[team]['gp']
-            # For 'post' games: skip if standings already count this game
-            if g['state'] == 'post' and current_gp >= scoreboard_gp.get(team, 0):
-                continue
+            # Group-stage post games: skip if standings already have them
+            if g['state'] == 'post' and not is_knockout:
+                if stats[team]['gp'] >= group_scoreboard_gp.get(team, 0):
+                    continue
 
             stats[team]['pts'] += pts_adj
             stats[team]['gd']  += gd_adj
             stats[team]['gp']  += 1
-            if pts_adj == 3:  stats[team]['w'] += 1
+            if pts_adj == 3:   stats[team]['w'] += 1
             elif pts_adj == 1: stats[team]['d'] += 1
             else:              stats[team]['l'] += 1
 
@@ -486,27 +527,41 @@ def git_pull():
 def main():
     git_pull()  # always start fresh from remote
 
-    # Fetch live games and standings in parallel (sequential here, still fast)
-    events = fetch_scoreboard()
-    games  = parse_scoreboard_games(events)
-
     base_standings, eliminated = fetch_base_standings()
     if eliminated:
-        print(f'Eliminated teams ({len(eliminated)}): {", ".join(sorted(eliminated))}')
+        print(f'Eliminated ({len(eliminated)}): {", ".join(sorted(eliminated))}')
 
-    has_live = any(g['state'] == 'in' for g in games)
+    # Knockout history: all completed games from Round of 32 start through yesterday
+    knockout_history = fetch_knockout_history()
+    if knockout_history:
+        print(f'Knockout history: {len(knockout_history)} completed game(s)')
+        for g in knockout_history:
+            print(f'  {g["team1"]} {g["score1"]}-{g["score2"]} {g["team2"]}'
+                  f'  (w1={g["winner1"]} w2={g["winner2"]})')
 
-    if games:
-        mode = 'LIVE' if has_live else 'post-match'
+    # Today's live/finished games
+    events     = fetch_scoreboard()
+    today_games = parse_scoreboard_games(events)
+    has_live    = any(g['state'] == 'in' for g in today_games)
+
+    all_games = knockout_history + today_games
+
+    if has_live:
+        mode = 'LIVE'
+    elif today_games:
+        mode = 'post-match'
+    else:
+        mode = 'standings'
+
+    if today_games:
         summaries = ', '.join(
             '{} {}-{} {} ({})'.format(g['team1'], g['score1'], g['score2'], g['team2'], g['state'])
-            for g in games)
-        print(f'[{mode}] {len(games)} game(s): {summaries}')
-        team_stats = merge_standings(base_standings, games)
+            for g in today_games)
+        print(f'[{mode}] today: {summaries}')
     else:
-        mode       = 'standings'
-        team_stats = base_standings
-        print('No active games — updating standings/eliminated only.')
+        print('No active games today.')
+
+    team_stats = merge_standings(base_standings, all_games)
 
     with open(HTML_FILE) as f:
         html = f.read()

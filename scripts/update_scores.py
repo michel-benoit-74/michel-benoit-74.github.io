@@ -791,7 +791,13 @@ def main():
     today_games = parse_scoreboard_games(events)
     has_live    = any(g['state'] == 'in' for g in today_games)
 
-    all_games = knockout_history + today_games
+    # Deduplicate: ESPN's no-date scoreboard sometimes returns yesterday's
+    # finished game as "today," so it would appear in both knockout_history
+    # AND today_games. Drop any today game whose team pair is already covered.
+    history_pairs = {frozenset([g['team1'], g['team2']]) for g in knockout_history}
+    today_games_deduped = [g for g in today_games
+                           if frozenset([g['team1'], g['team2']]) not in history_pairs]
+    all_games = knockout_history + today_games_deduped
 
     # Combine group-stage and knockout eliminated sets
     ko_eliminated = get_knockout_eliminated(all_games, base_standings)

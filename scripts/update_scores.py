@@ -716,6 +716,85 @@ def update_leaderboard(html, team_stats, has_live, eliminated=None):
     )
     return html
 
+
+def update_group_stage_leaderboard(html, base_standings):
+    """Generate/update the group-stage-only leaderboard snapshot.
+
+    If the <!-- GROUP_STAGE_LB:START/END --> markers are absent (e.g. after a
+    reset), this function inserts them automatically just before <!-- BRACKET -->.
+    """
+    START = '<!-- GROUP_STAGE_LB:START -->'
+    END   = '<!-- GROUP_STAGE_LB:END -->'
+
+    # Auto-insert markers if missing — self-heals after any git reset
+    if START not in html:
+        anchor = '  <!-- BRACKET -->'
+        if anchor in html:
+            html = html.replace(anchor, f'\n{START}\n{END}\n\n{anchor}', 1)
+        else:
+            print('[update_group_stage_leaderboard] anchor not found — skipped',
+                  file=sys.stderr)
+            return html
+
+    # Compute owner group-stage totals from base standings (gp ≤ 3 only)
+    owner_totals = {}
+    for owner, teams in OWNER_TEAMS.items():
+        t_pts = sum(base_standings.get(t, {}).get('pts', 0) for t in teams)
+        t_gd  = sum(base_standings.get(t, {}).get('gd',  0) for t in teams)
+        owner_totals[owner] = (t_pts, t_gd)
+
+    sorted_owners = sorted(owner_totals,
+                           key=lambda o: (-owner_totals[o][0], -owner_totals[o][1]))
+
+    rows = []
+    for rank, owner in enumerate(sorted_owners, 1):
+        t_pts, t_gd = owner_totals[owner]
+        gdc, gds   = gd_class(t_gd), gd_display(t_gd)
+        display    = OWNER_DISPLAY[owner]
+        pill_spans = []
+        for team in OWNER_TEAMS[owner]:
+            sname = HTML_TO_STATS.get(team, team)
+            css   = TEAM_CSS.get(team, team.lower().replace(' ', '').replace("'", ''))
+            pill_spans.append(f'<span class="team-pill sm {css} eliminated">{sname}</span>')
+        pills_td = ('<td class="lb-pills">\n'
+                    + ''.join(f'          {p}\n' for p in pill_spans)
+                    + '        </td>')
+        rows.append(
+            f'      <tr class="lb-row">\n'
+            f'        <td class="lb-rank">{rank}</td>\n'
+            f'        <td class="lb-name">{display}</td>\n'
+            f'        <td class="lb-pts">{t_pts}</td>\n'
+            f'        <td class="lb-gd {gdc}">{gds}</td>\n'
+            f'        {pills_td}\n'
+            f'      </tr>'
+        )
+
+    inner = (
+        '\n  <div class="section-title">Group Stage Standings</div>\n'
+        '  <div class="lb-note">Standings after group stage · before knockout rounds began</div>\n'
+        '\n  <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 32px;">\n'
+        '  <table class="lb-table">\n'
+        '    <thead>\n'
+        '      <tr>\n'
+        '        <th class="c">#</th>\n'
+        '        <th>Owners</th>\n'
+        '        <th class="c">Pts</th>\n'
+        '        <th class="c">+/−</th>\n'
+        '        <th>Teams</th>\n'
+        '      </tr>\n'
+        '    </thead>\n'
+        '    <tbody>\n'
+        + '\n'.join(rows) + '\n'
+        '    </tbody>\n'
+        '  </table>\n'
+        '  </div>\n'
+    )
+
+    pattern  = re.escape(START) + r'.*?' + re.escape(END)
+    repl     = f'{START}{inner}{END}'
+    return re.sub(pattern, repl, html, flags=re.DOTALL)
+
+
 # ── Git push ───────────────────────────────────────────────────────────────────
 
 def git_push(message):
@@ -842,6 +921,7 @@ def main():
     html = update_group_cards(html, team_stats, eliminated)
     html = update_stats_cards(html, team_stats, eliminated)
     html = update_leaderboard(html, team_stats, has_live, eliminated)
+    html = update_group_stage_leaderboard(html, base_standings)
 
     with open(HTML_FILE, 'w') as f:
         f.write(html)

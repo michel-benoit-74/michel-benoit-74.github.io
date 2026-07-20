@@ -146,8 +146,8 @@ BRACKET_MATCHES = {
     'r16-4':  {'round': 'R16',   'date': 'Jul 6',  'src1': 'r32-7',  'src2': 'r32-8'},
     'r16-5':  {'round': 'R16',   'date': 'Jul 6',  'src1': 'r32-11', 'src2': 'r32-12'},
     'r16-6':  {'round': 'R16',   'date': 'Jul 7',  'src1': 'r32-9',  'src2': 'r32-10'},
-    'r16-7':  {'round': 'R16',   'date': 'Jul 7',  'src1': 'r32-14', 'src2': 'r32-16'},
-    'r16-8':  {'round': 'R16',   'date': 'Jul 7',  'src1': 'r32-13', 'src2': 'r32-15'},
+    'r16-7':  {'round': 'R16',   'date': 'Jul 7',  'src1': 'r32-14', 'src2': 'r32-15'},
+    'r16-8':  {'round': 'R16',   'date': 'Jul 7',  'src1': 'r32-13', 'src2': 'r32-16'},
     'qf-1':   {'round': 'QF',    'date': 'Jul 9',  'src1': 'r16-1',  'src2': 'r16-2'},
     'qf-2':   {'round': 'QF',    'date': 'Jul 10', 'src1': 'r16-5',  'src2': 'r16-6'},
     'qf-3':   {'round': 'QF',    'date': 'Jul 11', 'src1': 'r16-3',  'src2': 'r16-4'},
@@ -822,7 +822,18 @@ def main():
     else:
         print('No active games today.')
 
-    team_stats = merge_standings(base_standings, all_games)
+    # The 3rd-place game is ceremonial — don't award pts for it.
+    # Resolve bracket to find the bronze match teams, then exclude that game
+    # from scoring (it still appears in the bracket display via update_bracket).
+    bracket_state = build_bracket(all_games)
+    third = bracket_state.get('3rd', {})
+    third_pair = (frozenset([third['team1'], third['team2']])
+                  if third.get('team1') and third.get('team2') else None)
+    scoring_games = [g for g in all_games
+                     if third_pair is None
+                     or frozenset([g['team1'], g['team2']]) != third_pair]
+
+    team_stats = merge_standings(base_standings, scoring_games)
 
     with open(HTML_FILE) as f:
         html = f.read()
